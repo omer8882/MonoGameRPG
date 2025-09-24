@@ -1,0 +1,7 @@
+{
+  "MoveUp": ["W", "Up"],
+  "MoveDown": ["S", "Down"],
+  "MoveLeft": ["A", "Left"],
+  "MoveRight": ["D", "Right"],
+  "ToggleOverlay": ["F3"]
+}

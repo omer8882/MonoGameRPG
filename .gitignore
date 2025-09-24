@@ -1,0 +1,32 @@
+# MonoGame/Visual Studio
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vspscc
+*.vssscc
+.vs/
+# Content pipeline cache
+Content/obj/
+# OS
+.DS_Store
+Thumbs.db
+# Rider
+.idea/
+*.iml
+# Test results
+TestResults/
+# Logs
+*.log
+# NuGet
+*.nupkg
+.nuget/
+# Others
+*.tmp
+*.bak
+*.swp
+*.lock
+# Ignore local settings
+*.local.json
