@@ -9,5 +9,9 @@ namespace ANewWorld.Engine.Components
         public Rectangle? SourceRect;
         public Color Color;
         public Vector2 Origin;
+
+        // Optional Y-sort bias (positive draws later/"in front")
+        public float SortOffsetY;
+        public Vector2 Padding;
     }
 }

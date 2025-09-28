@@ -2,6 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DefaultEcs;
 using ANewWorld.Engine.Components;
+using ANewWorld.Engine.Tilemap;
+using System.Linq;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld.Engine.Debug
 {
@@ -13,19 +16,24 @@ namespace ANewWorld.Engine.Debug
             _font = font;
         }
 
-        public void Draw(SpriteBatch spriteBatch, World ecsWorld, float fps)
+        public void Draw(SpriteBatch spriteBatch, World world, float fps, CollisionGridService? collisionGrid = null)
         {
-            int entityCount = ecsWorld.GetEntities().AsSet().Count;
+            int entityCount = world.GetEntities().AsSet().Count;
             Vector2 playerPos = Vector2.Zero;
-            var set = ecsWorld.GetEntities().With<Transform>().With<Velocity>().AsSet();
-            foreach (var entity in set.GetEntities())
+            int tileX = 0, tileY = 0;
+            bool blocked = false;
+            var player = world.GetPlayer();
+            playerPos = player.Get<Transform>().Position;
+            if (collisionGrid != null)
             {
-                playerPos = entity.Get<Transform>().Position;
-                break;
+                tileX = (int)(playerPos.X / collisionGrid.TileWidth);
+                tileY = (int)(playerPos.Y / collisionGrid.TileHeight);
+                blocked = collisionGrid.IsBlocked(playerPos.X, playerPos.Y);
             }
             string debugText = $"Entities: {entityCount}\n" +
                                $"FPS: {fps:F1}\n" +
-                               $"Player Pos: {playerPos.X:F1}, {playerPos.Y:F1}";
+                               $"Player Pos: {playerPos.X:F1}, {playerPos.Y:F1}\n" +
+                               $"Player Tile: {tileX}, {tileY}, Blocked: {blocked}";
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: null);
             spriteBatch.DrawString(_font, debugText, new Vector2(16, 16), Color.Yellow);
             spriteBatch.End();
