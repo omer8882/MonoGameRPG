@@ -24,18 +24,11 @@ namespace ANewWorld.Engine.Systems
                 ref var face = ref e.Get<FacingDirection>();
 
                 var moving = v.Value.LengthSquared() > 0.0001f;
-                string baseState = moving ? "Walk" : "Idle";
-                string dir = face.Value switch
+                var action = moving ? MovementAction.Walk : MovementAction.Idle;
+                var newKey = new MovementAnimationKey(action, face.Value);
+                if (!newKey.Equals(anim.StateKey))
                 {
-                    Facing.Up => "Up",
-                    Facing.Left => "Left",
-                    Facing.Right => "Right",
-                    _ => "Down"
-                };
-                var newState = baseState + dir;
-                if (anim.State != newState)
-                {
-                    anim.State = newState;
+                    anim.StateKey = newKey;
                     anim.FrameIndex = 0;
                     anim.Timer = 0f;
                 }

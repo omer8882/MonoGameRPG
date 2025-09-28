@@ -21,7 +21,7 @@ namespace ANewWorld.Engine.Systems
             {
                 ref var anim = ref e.Get<SpriteAnimatorComponent>();
                 ref var sprite = ref e.Get<SpriteComponent>();
-                if (!anim.Clips.TryGetValue(anim.State, out var clip) || clip.Frames == null || clip.Frames.Count == 0)
+                if (!anim.Clips.TryGetValue(anim.StateKey, out var clip) || clip.Frames == null || clip.Frames.Count == 0)
                     continue;
 
                 anim.Timer += dt;
