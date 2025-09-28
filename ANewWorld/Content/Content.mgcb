@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\bin\Debug\net8.0\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -31,4 +32,795 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/default_font.spritefont
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1.gif
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1.gif;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Animations/Door_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Atlas/Buildings.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Atlas/Buildings.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Atlas/Buildings
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/CityWall_Gate_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/CityWall_Gate_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/CityWall_Gate_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_4_Purple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_4_Purple.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/House_Hay_4_Purple
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Well_Hay_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Well_Hay_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Buildings/Well_Hay_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Idle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Idle.png;Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Idle
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Slash.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Slash.png;Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Slash
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Walk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Walk.png;Maps/The Fan-tasy Tileset (Free)/Art/Characters/Main Character/Character_Walk
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Ground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Ground.png;Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Ground
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Road.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Road.png;Maps/The Fan-tasy Tileset (Free)/Art/Ground Tileset/Tileset_Road
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Campfire.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Campfire.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Campfire
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_Red.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_Red.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_Red
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_White.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_White.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Animation/Flowers_White
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Atlas/Props.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Atlas/Props.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Atlas/Props
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Banner_Stick_1_Purple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Banner_Stick_1_Purple.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Banner_Stick_1_Purple
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Barrel_Small_Empty.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Barrel_Small_Empty.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Barrel_Small_Empty
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Basket_Empty.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Basket_Empty.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Basket_Empty
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Bench_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/BulletinBoard_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/BulletinBoard_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/BulletinBoard_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Chopped_Tree_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Chopped_Tree_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Chopped_Tree_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Large_Empty.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Large_Empty.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Large_Empty
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Medium_Closed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Medium_Closed.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Medium_Closed
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Water_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Water_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Crate_Water_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Fireplace_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Fireplace_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Fireplace_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/HayStack_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/HayStack_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/HayStack_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/LampPost_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/LampPost_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/LampPost_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Plant_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Plant_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Plant_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Sack_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Sack_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Sack_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Sign_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Props/Table_Medium_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Props/Table_Medium_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Props/Table_Medium_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope_Simple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope_Simple.png;Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope_Simple
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope.png;Maps/The Fan-tasy Tileset (Free)/Art/Rock Slopes/Tileset_RockSlope
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Atlas/Rocks.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Atlas/Rocks.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Atlas/Rocks
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_4.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_4
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_6.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_6.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_6
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_9.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_9.png;Maps/The Fan-tasy Tileset (Free)/Art/Rocks/Rock_Brown_9
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Tileset_Example.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Tileset_Example.png;Maps/The Fan-tasy Tileset (Free)/Art/Tileset_Example
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Atlas/Trees_Bushes.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Atlas/Trees_Bushes.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Atlas/Trees_Bushes
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_4.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_4
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_5.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_5
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_6.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_6.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_6
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_7.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_7.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Bush_Emerald_7
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_1.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_1
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_2.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_2
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_3.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_3
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_4.png;Maps/The Fan-tasy Tileset (Free)/Art/Trees and Bushes/Tree_Emerald_4
+
+#begin Maps/The Fan-tasy Tileset (Free)/Art/Water and Sand/Tileset_Water.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/The Fan-tasy Tileset (Free)/Art/Water and Sand/Tileset_Water.png;Maps/The Fan-tasy Tileset (Free)/Art/Water and Sand/Tileset_Water
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway.tmx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Campfire.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Campfire.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Campfire
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_Red.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_Red.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_Red
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_White.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_White.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Animation_Flowers_White
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Buildings.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Buildings.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Buildings
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Props.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Props.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Props
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Rocks.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Rocks.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Rocks
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Trees_Bushes.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Trees_Bushes.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Atlas_Trees_Bushes
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Buildings.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Buildings.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Buildings
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Props.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Props.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Props
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Rocks.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Rocks.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Rocks
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Trees.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Trees.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Objects_Trees
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Ground.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Ground.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Ground
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope_Simple.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope_Simple.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope_Simple
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_RockSlope
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Water.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Water.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tileset_Water
+
+#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road
 
