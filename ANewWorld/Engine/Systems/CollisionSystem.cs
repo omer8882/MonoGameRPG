@@ -9,6 +9,7 @@ namespace ANewWorld.Engine.Systems
     {
         private readonly World _world;
         private readonly CollisionGridService _collisionGrid;
+        private const float slidingScale = 0.7f; // reduce speed when sliding along wall
 
         public CollisionSystem(World world, CollisionGridService collisionGrid)
         {
@@ -34,12 +35,12 @@ namespace ANewWorld.Engine.Systems
                 // Checing both x and y seperately to allow sliding along walls
                 if (Blocked(t.Position.X, intended.Y))
                 {
-                    v.Value = new Vector2(v.Value.X, 0);
+                    v.Value = new Vector2(v.Value.X * slidingScale, 0);
                     entity.Set(v);
                 }
                 if(Blocked(intended.X, t.Position.Y))
                 {
-                    v.Value = new Vector2(0, v.Value.Y);
+                    v.Value = new Vector2(0, v.Value.Y * slidingScale);
                     entity.Set(v);
                 }
             }

@@ -34,14 +34,14 @@ namespace ANewWorld.Engine.Game
             var clips = new Dictionary<MovementAnimationKey, AnimationClip>();
             Rectangle Frame(int col, int row) => new Rectangle(col * sourceRect.Width, row * sourceRect.Height, sourceRect.Width, sourceRect.Height);
 
-            clips[new(MovementAction.Idle, Facing.Down)] = new AnimationClip { Frames = [Frame(0, 0)], FrameDuration = 0.2f };
-            clips[new(MovementAction.Walk, Facing.Down)] = new AnimationClip { Frames = [Frame(0, 4), Frame(1, 4), Frame(2, 4), Frame(3, 4)], FrameDuration = 0.12f };
-            clips[new(MovementAction.Idle, Facing.Left)] = new AnimationClip { Frames = [Frame(0, 3)] , FrameDuration = 0.2f };
-            clips[new(MovementAction.Walk, Facing.Left)] = new AnimationClip { Frames = [Frame(0, 7), Frame(1, 7), Frame(2, 7), Frame(3, 7)], FrameDuration = 0.12f };
-            clips[new(MovementAction.Idle, Facing.Right)] = new AnimationClip { Frames = [Frame(0, 2)], FrameDuration = 0.2f };
-            clips[new(MovementAction.Walk, Facing.Right)] = new AnimationClip { Frames = [Frame(0, 6), Frame(1, 6), Frame(2, 6), Frame(3, 6)], FrameDuration = 0.12f };
-            clips[new(MovementAction.Idle, Facing.Up)] = new AnimationClip { Frames = [Frame(0, 1)], FrameDuration = 0.2f };
-            clips[new(MovementAction.Walk, Facing.Up)] = new AnimationClip { Frames = [Frame(0, 5), Frame(1, 5), Frame(2, 5), Frame(3, 5)], FrameDuration = 0.12f };
+            clips[new(MovementAction.Idle, Facing.Down)] = new AnimationClip([Frame(0, 0)], 0.2f);
+            clips[new(MovementAction.Walk, Facing.Down)] = new AnimationClip([Frame(0, 4), Frame(1, 4), Frame(2, 4), Frame(3, 4)], 0.12f );
+            clips[new(MovementAction.Idle, Facing.Left)] = new AnimationClip ([Frame(0, 3)], 0.2f);
+            clips[new(MovementAction.Walk, Facing.Left)] = new AnimationClip ([Frame(0, 7), Frame(1, 7), Frame(2, 7), Frame(3, 7)], 0.12f);
+            clips[new(MovementAction.Idle, Facing.Right)] = new AnimationClip ([Frame(0, 2)], 0.2f);
+            clips[new(MovementAction.Walk, Facing.Right)] = new AnimationClip ([Frame(0, 6), Frame(1, 6), Frame(2, 6), Frame(3, 6)], 0.12f);
+            clips[new(MovementAction.Idle, Facing.Up)] = new AnimationClip ([Frame(0, 1)], 0.2f);
+            clips[new(MovementAction.Walk, Facing.Up)] = new AnimationClip ([Frame(0, 5), Frame(1, 5), Frame(2, 5), Frame(3, 5)], 0.12f);
 
             entity.Set(new SpriteAnimatorComponent
             {

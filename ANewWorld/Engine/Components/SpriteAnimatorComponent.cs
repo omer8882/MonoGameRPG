@@ -52,6 +52,7 @@ namespace ANewWorld.Engine.Components
         {
             Frames = frames;
             FrameDuration = frameDuration;
+            Loop = true;
         }
     }
 }
