@@ -45,7 +45,7 @@ namespace ANewWorld
         private DebugOverlayService? _debugOverlay;
         private TmxRenderer? _tmxRenderer;
         private CollisionGridService? _collisionGrid;
-        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway";
+        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields";
         private string _collisionLayerName = "Collisions";
 
         private ObjectTileAnimationSystem? _objectTileAnimSystem;

@@ -27,7 +27,7 @@ namespace ANewWorld.Engine.Game
                 SourceRect = sourceRect,
                 Color = Color.White,
                 Origin = new Vector2(sourceRect.Width / 2f, sourceRect.Height / 2f),
-                SortOffsetY = padding.Y
+                SortOffsetY = -padding.Y
             };
             entity.Set(sprite);
 
