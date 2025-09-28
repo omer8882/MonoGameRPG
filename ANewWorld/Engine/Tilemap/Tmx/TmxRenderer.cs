@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using TiledSharp;
 using System.IO;
 using System;
+using ANewWorld.Engine.Rendering;
 
 namespace ANewWorld.Engine.Tilemap.Tmx
 {
@@ -15,7 +16,7 @@ namespace ANewWorld.Engine.Tilemap.Tmx
         private readonly Dictionary<int, Texture2D> _gidToTexture;
         private readonly Dictionary<int, Rectangle> _gidToSourceRect;
 
-        // Animated tiles: map any frame gid to its animation controller
+        // Animated tiles
         private readonly Dictionary<int, AnimatedTile> _animatedLookup = new();
         private readonly List<AnimatedTile> _animatedList = new();
 
@@ -33,6 +34,10 @@ namespace ANewWorld.Engine.Tilemap.Tmx
         public IReadOnlyDictionary<int, Texture2D> GidToTexture => _gidToTexture;
         public IReadOnlyDictionary<int, Rectangle> GidToSourceRect => _gidToSourceRect;
 
+        // Last cull info
+        public Rectangle LastVisibleTiles { get; private set; } // in tile coords (x,y,width,height)
+        public Rectangle LastVisibleWorld { get; private set; } // in pixels
+
         public TmxRenderer(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, TiledSharp.TmxMap map)
         {
             _graphics = graphicsDevice;
@@ -40,6 +45,8 @@ namespace ANewWorld.Engine.Tilemap.Tmx
             Map = map;
             _gidToTexture = new Dictionary<int, Texture2D>();
             _gidToSourceRect = new Dictionary<int, Rectangle>();
+            LastVisibleTiles = new Rectangle(0, 0, Map.Width, Map.Height);
+            LastVisibleWorld = new Rectangle(0, 0, Map.Width * Map.TileWidth, Map.Height * Map.TileHeight);
         }
 
         private static string? TryResolveAssetName(string source)
@@ -172,16 +179,106 @@ namespace ANewWorld.Engine.Tilemap.Tmx
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Matrix? transform = null)
+        public int ResolveCurrentGid(int gid)
         {
+            if (_animatedLookup.TryGetValue(gid, out var anim))
+                return anim.CurrentGid;
+            return gid;
+        }
+
+        public bool IsAnimated(int gid)
+        {
+            return _animatedLookup.ContainsKey(gid);
+        }
+
+        // Frustum-culling enabled draw
+        public void Draw(SpriteBatch spriteBatch, CameraService camera)
+        {
+            // Compute camera view rectangle in world pixels
+            float viewW = camera.VirtualWidth / camera.Zoom;
+            float viewH = camera.VirtualHeight / camera.Zoom;
+            float left = camera.Position.X - viewW / 2f;
+            float top = camera.Position.Y - viewH / 2f;
+            if (left < 0) left = 0;
+            if (top < 0) top = 0;
+
+            // Compute visible tile range with 1-tile padding
+            int minTX = Math.Max(0, (int)System.Math.Floor(left / Map.TileWidth) - 1);
+            int minTY = Math.Max(0, (int)System.Math.Floor(top / Map.TileHeight) - 1);
+            int maxTX = Math.Min(Map.Width - 1, (int)System.Math.Floor((left + viewW) / Map.TileWidth) + 1);
+            int maxTY = Math.Min(Map.Height - 1, (int)System.Math.Floor((top + viewH) / Map.TileHeight) + 1);
+
+            LastVisibleTiles = new Rectangle(minTX, minTY, maxTX - minTX + 1, maxTY - minTY + 1);
+            LastVisibleWorld = new Rectangle(
+                minTX * Map.TileWidth,
+                minTY * Map.TileHeight,
+                (maxTX - minTX + 1) * Map.TileWidth,
+                (maxTY - minTY + 1) * Map.TileHeight);
+
             const uint FLIP_H = 0x80000000;
             const uint FLIP_V = 0x40000000;
-            const uint FLIP_D = 0x20000000; // not fully handled
+            const uint FLIP_D = 0x20000000;
             const uint GID_MASK = 0x1FFFFFFF;
 
             foreach (var layer in Map.Layers)
             {
-                // respect visibility (default true)
+                bool visible = true;
+                var visProp = layer.GetType().GetProperty("Visible");
+                if (visProp != null)
+                {
+                    var v = visProp.GetValue(layer);
+                    if (v is bool vb) visible = vb;
+                }
+                if (!visible) continue;
+
+                for (int y = minTY; y <= maxTY; y++)
+                {
+                    int rowIndex = y * Map.Width;
+                    for (int x = minTX; x <= maxTX; x++)
+                    {
+                        int index = rowIndex + x;
+                        if (index < 0 || index >= layer.Tiles.Count) continue;
+                        uint raw = (uint)layer.Tiles[index].Gid;
+                        if (raw == 0) continue;
+                        bool flipH = (raw & FLIP_H) != 0;
+                        bool flipV = (raw & FLIP_V) != 0;
+                        bool flipD = (raw & FLIP_D) != 0;
+                        int gid = (int)(raw & GID_MASK);
+
+                        // Animated tiles: remap gid to current frame
+                        if (_animatedLookup.TryGetValue(gid, out var anim))
+                        {
+                            gid = anim.CurrentGid;
+                        }
+
+                        if (!_gidToTexture.TryGetValue(gid, out var tex)) continue;
+                        var src = _gidToSourceRect[gid];
+                        var pos = new Vector2(x * Map.TileWidth, y * Map.TileHeight);
+
+                        var effects = SpriteEffects.None;
+                        if (flipH) effects |= SpriteEffects.FlipHorizontally;
+                        if (flipV) effects |= SpriteEffects.FlipVertically;
+
+                        spriteBatch.Draw(tex, pos, src, Color.White, 0f, Vector2.Zero, 1f, effects, 0f);
+                    }
+                }
+            }
+        }
+
+        // Legacy full-draw (no culling)
+        public void Draw(SpriteBatch spriteBatch, Matrix? transform = null)
+        {
+            // Fall back to full range
+            LastVisibleTiles = new Rectangle(0, 0, Map.Width, Map.Height);
+            LastVisibleWorld = new Rectangle(0, 0, Map.Width * Map.TileWidth, Map.Height * Map.TileHeight);
+
+            const uint FLIP_H = 0x80000000;
+            const uint FLIP_V = 0x40000000;
+            const uint FLIP_D = 0x20000000;
+            const uint GID_MASK = 0x1FFFFFFF;
+
+            foreach (var layer in Map.Layers)
+            {
                 bool visible = true;
                 var visProp = layer.GetType().GetProperty("Visible");
                 if (visProp != null)
@@ -222,18 +319,6 @@ namespace ANewWorld.Engine.Tilemap.Tmx
                     }
                 }
             }
-        }
-
-        public int ResolveCurrentGid(int gid)
-        {
-            if (_animatedLookup.TryGetValue(gid, out var anim))
-                return anim.CurrentGid;
-            return gid;
-        }
-
-        public bool IsAnimated(int gid)
-        {
-            return _animatedLookup.ContainsKey(gid);
         }
     }
 }

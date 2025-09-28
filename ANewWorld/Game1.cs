@@ -45,7 +45,7 @@ namespace ANewWorld
         private DebugOverlayService? _debugOverlay;
         private TmxRenderer? _tmxRenderer;
         private CollisionGridService? _collisionGrid;
-        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields";
+        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway";
         private string _collisionLayerName = "Collisions";
 
         private ObjectTileAnimationSystem? _objectTileAnimSystem;
@@ -124,6 +124,8 @@ namespace ANewWorld
                 new Vector2(_virtualWidth / 2f, _virtualHeight / 2f)
             );
 
+            _renderSystem.Camera = _camera;
+
             _screenWidth = GraphicsDevice.PresentationParameters.BackBufferWidth;
             _screenHeight = GraphicsDevice.PresentationParameters.BackBufferHeight;
         }
@@ -184,7 +186,10 @@ namespace ANewWorld
 
             // Draw tilemap using TMX renderer
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _camera?.GetViewMatrix());
-            _tmxRenderer?.Draw(_spriteBatch, _camera?.GetViewMatrix());
+            if (_tmxRenderer != null && _camera != null)
+                _tmxRenderer.Draw(_spriteBatch, _camera);
+            else
+                _tmxRenderer?.Draw(_spriteBatch, _camera?.GetViewMatrix());
             _renderSystem?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             _spriteBatch.End();
 
@@ -212,7 +217,16 @@ namespace ANewWorld
             if (_inputActions!.OverlayActive && _debugOverlay != null && _ecsWorld != null)
             {
                 float fps = 1f / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                _debugOverlay.Draw(_spriteBatch, _ecsWorld, fps, _collisionGrid!);
+                _debugOverlay.Draw(
+                    _spriteBatch,
+                    _ecsWorld,
+                    fps,
+                    _collisionGrid!,
+                    _tmxRenderer,
+                    _camera?.Position ?? Vector2.Zero,
+                    _camera?.Zoom ?? 1f,
+                    _renderSystem?.LastVisibleCount ?? 0,
+                    _renderSystem?.LastCulledCount ?? 0);
             }
 
             base.Draw(gameTime);
