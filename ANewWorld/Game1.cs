@@ -8,7 +8,14 @@ using ANewWorld.Engine.Systems;
 using ANewWorld.Engine.Components;
 using ANewWorld.Engine.Rendering;
 using ANewWorld.Engine.Input;
+using ANewWorld.Engine.Game;
 using ANewWorld.Engine.Debug;
+using ANewWorld.Engine.Tilemap;
+using ANewWorld.Engine.Tilemap.Tmx;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
+using System.Linq;
+using TiledSharp;
 
 namespace ANewWorld
 {
@@ -20,6 +27,7 @@ namespace ANewWorld
         private InputSystem? _inputSystem;
         private MovementSystem? _movementSystem;
         private RenderSystem? _renderSystem;
+        private CollisionSystem? _collisionSystem;
         private RenderTarget2D? _virtualTarget;
         private int _virtualWidth = 600;
         private int _virtualHeight = 600;
@@ -35,6 +43,15 @@ namespace ANewWorld
         private InputActionService? _inputActions;
         private SpriteFont? _debugFont;
         private DebugOverlayService? _debugOverlay;
+        private TmxRenderer? _tmxRenderer;
+        private CollisionGridService? _collisionGrid;
+        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields";
+        private string _collisionLayerName = "Collisions";
+
+        private ObjectTileAnimationSystem? _objectTileAnimSystem;
+        private AnimationSystem? _animationSystem;
+        private FacingDirectionSystem? _facingSystem;
+        private AnimationStateSystem? _animStateSystem;
 
         public Game1()
         {
@@ -75,23 +92,40 @@ namespace ANewWorld
             _inputSystem = new InputSystem(_ecsWorld, _inputActions);
             _movementSystem = new MovementSystem(_ecsWorld);
             _renderSystem = new RenderSystem(_ecsWorld, _spriteBatch);
+            _animationSystem = new AnimationSystem(_ecsWorld!);
+            _facingSystem = new FacingDirectionSystem(_ecsWorld!);
+            _animStateSystem = new AnimationStateSystem(_ecsWorld!);
 
-            // create player entity
-            var e = _ecsWorld.CreateEntity();
-            e.Set(new Transform { Position = new Vector2(_virtualWidth / 2f, _virtualHeight / 2f), Rotation = 0f, Scale = Vector2.One });
-            e.Set(new Velocity { Value = Vector2.Zero });
-            e.Set(new SpriteComponent {
-                Texture = _playerTexture,
-                SourceRect = _playerSourceRect,
-                Color = Color.White,
-                Origin = new Vector2(_playerFrameWidth / 2f, _playerFrameHeight / 2f)
-            });
+            // Load tilemap via custom TMX loader and build atlas
+            
+            var tmxPath = System.IO.Path.Combine("C:\\Users\\omer8\\Omer\\Dev\\Gaming\\A New World\\ANewWorld\\ANewWorld\\Content", _mapAsset + ".tmx");
+            var tmxMap = TmxLoader.LoadFromFile(tmxPath);
+            _tmxRenderer = new TmxRenderer(GraphicsDevice, _spriteBatch, tmxMap);
+            _tmxRenderer.BuildAtlas(Content);
+
+            _objectTileAnimSystem = new ObjectTileAnimationSystem(_ecsWorld!, _tmxRenderer);
+
+            // Spawn objects from TiledSharp map: build dictionaries from renderer
+            var objectSpawner = new TileObjectSpawner(_ecsWorld!, new Dictionary<int, Texture2D>(_tmxRenderer.GidToTexture), new Dictionary<int, Rectangle>(_tmxRenderer.GidToSourceRect), _tmxRenderer);
+            objectSpawner.SpawnObjects(tmxMap);
+
+            // Camera based on map size
+            _camera = new CameraService(_virtualWidth, _virtualHeight, tmxMap.Width * tmxMap.TileWidth, tmxMap.Height * tmxMap.TileHeight, 2f);
+
+            // Collision grid from TMX layer
+            _collisionGrid = new CollisionGridService(tmxMap, _collisionLayerName);
+            _collisionSystem = _collisionGrid is not null && _ecsWorld is not null ? new CollisionSystem(_ecsWorld, _collisionGrid!) : null;
+
+            // create player entity via factory
+            PlayerFactory.CreatePlayer(
+                _ecsWorld,
+                _playerTexture!,
+                _playerSourceRect,
+                new Vector2(_virtualWidth / 2f, _virtualHeight / 2f)
+            );
 
             _screenWidth = GraphicsDevice.PresentationParameters.BackBufferWidth;
             _screenHeight = GraphicsDevice.PresentationParameters.BackBufferHeight;
-
-            // camera: world size equals virtual size for now
-            _camera = new CameraService(_virtualWidth, _virtualHeight, _virtualWidth, _virtualHeight, 2f);
         }
 
         protected override void Update(GameTime gameTime)
@@ -102,8 +136,15 @@ namespace ANewWorld
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             _inputSystem?.Update(dt);
+            _collisionSystem?.Update(dt); // collision before movement
             _movementSystem?.Update(dt);
+            _animationSystem?.Update(dt);
+            _facingSystem?.Update(dt);
+            _animStateSystem?.Update(dt);
 
+            // no tilemap service update needed for TMX renderer
+            _tmxRenderer?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            _objectTileAnimSystem?.Update(dt);
             // update camera to follow player
             var set = _ecsWorld?.GetEntities().With<Transform>().With<Velocity>().AsSet();
             if (set != null)
@@ -116,6 +157,23 @@ namespace ANewWorld
                 }
             }
 
+            // Clamp camera to map bounds after updating position
+            if (_camera is not null && _tmxRenderer is not null)
+            {
+                float halfW = _camera.VirtualWidth / 2f / _camera.Zoom;
+                float halfH = _camera.VirtualHeight / 2f / _camera.Zoom;
+                float worldW = _tmxRenderer.Map.Width * _tmxRenderer.Map.TileWidth;
+                float worldH = _tmxRenderer.Map.Height * _tmxRenderer.Map.TileHeight;
+                float minX = halfW;
+                float maxX = worldW - halfW - 1f;
+                float minY = halfH;
+                float maxY = worldH - halfH - 1f;
+                var pos = _camera.Position;
+                pos.X = MathHelper.Clamp(pos.X, minX, maxX);
+                pos.Y = MathHelper.Clamp(pos.Y, minY, maxY);
+                _camera.Update(pos);
+            }
+
             base.Update(gameTime);
         }
 
@@ -124,7 +182,9 @@ namespace ANewWorld
             GraphicsDevice.SetRenderTarget(_virtualTarget);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // Draw tilemap using TMX renderer
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _camera?.GetViewMatrix());
+            _tmxRenderer?.Draw(_spriteBatch, _camera?.GetViewMatrix());
             _renderSystem?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             _spriteBatch.End();
 
@@ -152,7 +212,7 @@ namespace ANewWorld
             if (_inputActions!.OverlayActive && _debugOverlay != null && _ecsWorld != null)
             {
                 float fps = 1f / (float)gameTime.ElapsedGameTime.TotalSeconds;
-                _debugOverlay.Draw(_spriteBatch, _ecsWorld, fps);
+                _debugOverlay.Draw(_spriteBatch, _ecsWorld, fps, _collisionGrid!);
             }
 
             base.Draw(gameTime);
