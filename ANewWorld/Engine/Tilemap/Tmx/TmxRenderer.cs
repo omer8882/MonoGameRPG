@@ -19,6 +19,7 @@ namespace ANewWorld.Engine.Tilemap.Tmx
         // Animated tiles
         private readonly Dictionary<int, AnimatedTile> _animatedLookup = new();
         private readonly List<AnimatedTile> _animatedList = new();
+        private readonly List<(int x, int y, int gid, SpriteEffects fx)> _tileBatch = new(512);
 
         private sealed class AnimatedTile
         {
@@ -186,10 +187,7 @@ namespace ANewWorld.Engine.Tilemap.Tmx
             return gid;
         }
 
-        public bool IsAnimated(int gid)
-        {
-            return _animatedLookup.ContainsKey(gid);
-        }
+        public bool IsAnimated(int gid) => _animatedLookup.ContainsKey(gid);
 
         // Frustum-culling enabled draw
         public void Draw(SpriteBatch spriteBatch, CameraService camera)
@@ -220,6 +218,7 @@ namespace ANewWorld.Engine.Tilemap.Tmx
             const uint FLIP_D = 0x20000000;
             const uint GID_MASK = 0x1FFFFFFF;
 
+            _tileBatch.Clear();
             foreach (var layer in Map.Layers)
             {
                 bool visible = true;
@@ -253,15 +252,25 @@ namespace ANewWorld.Engine.Tilemap.Tmx
 
                         if (!_gidToTexture.TryGetValue(gid, out var tex)) continue;
                         var src = _gidToSourceRect[gid];
-                        var pos = new Vector2(x * Map.TileWidth, y * Map.TileHeight);
 
                         var effects = SpriteEffects.None;
                         if (flipH) effects |= SpriteEffects.FlipHorizontally;
                         if (flipV) effects |= SpriteEffects.FlipVertically;
 
-                        spriteBatch.Draw(tex, pos, src, Color.White, 0f, Vector2.Zero, 1f, effects, 0f);
+                        _tileBatch.Add((x, y, gid, effects));
                     }
                 }
+
+                // After tile fill, issue draws
+                for (int i = 0; i < _tileBatch.Count; i++)
+                {
+                    var t = _tileBatch[i];
+                    var pos = new Vector2(t.x * Map.TileWidth, t.y * Map.TileHeight);
+                    var src = _gidToSourceRect[t.gid];
+                    var tex = _gidToTexture[t.gid];
+                    spriteBatch.Draw(tex, pos, src, Color.White, 0f, Vector2.Zero, 1f, t.fx, 0f);
+                }
+                _tileBatch.Clear();
             }
         }
 

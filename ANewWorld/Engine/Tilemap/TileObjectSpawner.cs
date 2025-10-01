@@ -1,14 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Collections;
 using DefaultEcs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Tiled;
 using ANewWorld.Engine.Components;
 using ANewWorld.Engine.Tilemap.Tmx;
 using TiledSharp;
-using System;
 
 namespace ANewWorld.Engine.Tilemap
 {
@@ -26,9 +22,6 @@ namespace ANewWorld.Engine.Tilemap
             _gidToSourceRect = gidToSourceRect;
             _tmxRenderer = tmxRenderer;
         }
-
-        // Existing MonoGame.Extended overload kept (unused now)
-        public void SpawnObjects(TiledMap map) { /* no-op in TiledSharp mode */ }
 
         // TiledSharp overload
         public void SpawnObjects(TiledSharp.TmxMap map)
@@ -67,11 +60,6 @@ namespace ANewWorld.Engine.Tilemap
 
                     e.Set(new Name(obj.Name));
 
-                    if(obj.Name.Contains("Fire"))
-                    {
-                        Console.WriteLine("");
-                    }
-
                     if (gid != 0 && _gidToTexture.TryGetValue(gid, out var tex) && _gidToSourceRect.TryGetValue(gid, out var rect))
                     {
                         e.Set(new SpriteComponent
@@ -82,7 +70,6 @@ namespace ANewWorld.Engine.Tilemap
                             Origin = Vector2.Zero
                         });
 
-                        // If base gid is part of an animated sequence, tag the entity for animation updates
                         if (_tmxRenderer != null && _tmxRenderer.IsAnimated(baseGid))
                         {
                             e.Set(new ANewWorld.Engine.Components.AnimatedTileObject { BaseGid = baseGid, LastAppliedGid = gid });
