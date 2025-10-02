@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using System.Linq;
 using TiledSharp;
+using ANewWorld.Engine.Dialogue;
+using ANewWorld.Engine.UI;
 
 namespace ANewWorld
 {
@@ -52,6 +54,12 @@ namespace ANewWorld
         private AnimationSystem? _animationSystem;
         private FacingDirectionSystem? _facingSystem;
         private AnimationStateSystem? _animStateSystem;
+        private InteractionSystem? _interactionSystem;
+        private DialogueService? _dialogueService;
+        private DialogueSystem? _dialogueSystem;
+        private DialogueHud? _dialogueHud;
+
+        private GameStateService _gameState = new GameStateService();
 
         public Game1()
         {
@@ -95,6 +103,7 @@ namespace ANewWorld
             _animationSystem = new AnimationSystem(_ecsWorld!);
             _facingSystem = new FacingDirectionSystem(_ecsWorld!);
             _animStateSystem = new AnimationStateSystem(_ecsWorld!);
+            _interactionSystem = new InteractionSystem(_ecsWorld!, _inputActions);
 
             // Load tilemap via custom TMX loader and build atlas
             
@@ -126,6 +135,15 @@ namespace ANewWorld
 
             _renderSystem.Camera = _camera;
 
+            // Dialogue service and system
+            _dialogueService = new DialogueService();
+            _dialogueService.Load("Content/dialogues.json");
+            _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions);
+            _dialogueHud = new DialogueHud(_debugFont);
+
+            // initial state
+            _gameState.Set(GameState.Playing);
+
             _screenWidth = GraphicsDevice.PresentationParameters.BackBufferWidth;
             _screenHeight = GraphicsDevice.PresentationParameters.BackBufferHeight;
         }
@@ -137,29 +155,48 @@ namespace ANewWorld
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _inputSystem?.Update(dt);
-            _collisionSystem?.Update(dt); // collision before movement
-            _movementSystem?.Update(dt);
-            _animationSystem?.Update(dt);
-            _facingSystem?.Update(dt);
-            _animStateSystem?.Update(dt);
+            // Update input state once per frame
+            _inputActions?.Update();
 
-            // no tilemap service update needed for TMX renderer
-            _tmxRenderer?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            _objectTileAnimSystem?.Update(dt);
-            // update camera to follow player
-            var set = _ecsWorld?.GetEntities().With<Transform>().With<Velocity>().AsSet();
-            if (set != null)
+            if (_gameState.Is(GameState.Playing))
             {
-                foreach (var entity in set.GetEntities())
-                {
-                    var t = entity.Get<Transform>();
-                    _camera?.Update(t.Position);
-                    break; // follow first entity
-                }
+                _inputSystem?.Update(dt);
+                _collisionSystem?.Update(dt);
+                _movementSystem?.Update(dt);
+                _animationSystem?.Update(dt);
+                _facingSystem?.Update(dt);
+                _animStateSystem?.Update(dt);
+                _interactionSystem?.Update(dt);
             }
 
-            // Clamp camera to map bounds after updating position
+            // Dialogue always updates to detect start/end
+            _dialogueSystem?.Update(dt);
+
+            // Switch state based on dialogue activity
+            if (_dialogueSystem?.IsActive == true && !_gameState.Is(GameState.Dialogue))
+                _gameState.Set(GameState.Dialogue);
+            else if (_dialogueSystem?.IsActive == false && _gameState.Is(GameState.Dialogue))
+                _gameState.Set(GameState.Playing);
+
+            // Map/objects continue animating regardless of state
+            _tmxRenderer?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            _objectTileAnimSystem?.Update(dt);
+
+            // Camera follows only in Playing
+            if (_gameState.Is(GameState.Playing))
+            {
+                var set = _ecsWorld?.GetEntities().With<Transform>().With<Velocity>().AsSet();
+                if (set != null)
+                {
+                    foreach (var entity in set.GetEntities())
+                    {
+                        var t = entity.Get<Transform>();
+                        _camera?.Update(t.Position);
+                        break;
+                    }
+                }
+            }
+            // Clamp camera always
             if (_camera is not null && _tmxRenderer is not null)
             {
                 float halfW = _camera.VirtualWidth / 2f / _camera.Zoom;
@@ -177,6 +214,7 @@ namespace ANewWorld
             }
 
             base.Update(gameTime);
+            _inputActions?.EndFrame();
         }
 
         protected override void Draw(GameTime gameTime)
@@ -213,6 +251,14 @@ namespace ANewWorld
             _spriteBatch.Draw(_virtualTarget, new Rectangle(offsetX, offsetY, scaledWidth, scaledHeight), Color.White);
             _spriteBatch.End();
 
+            // Dialogue HUD
+            if (_dialogueSystem is not null && _dialogueHud is not null)
+            {
+                _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+                _dialogueHud.Draw(_spriteBatch, _dialogueSystem);
+                _spriteBatch.End();
+            }
+
             // Debug overlay drawn in window space (after scaling)
             if (_inputActions!.OverlayActive && _debugOverlay != null && _ecsWorld != null)
             {
@@ -226,7 +272,8 @@ namespace ANewWorld
                     _camera?.Position ?? Vector2.Zero,
                     _camera?.Zoom ?? 1f,
                     _renderSystem?.LastVisibleCount ?? 0,
-                    _renderSystem?.LastCulledCount ?? 0);
+                    _renderSystem?.LastCulledCount ?? 0,
+                    _interactionSystem);
             }
 
             base.Draw(gameTime);

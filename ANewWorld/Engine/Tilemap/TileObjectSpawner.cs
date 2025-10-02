@@ -76,6 +76,23 @@ namespace ANewWorld.Engine.Tilemap
                         }
                     }
 
+                    // Optional: map properties to Interactable and Dialogue
+                    if (obj.Properties != null)
+                    {
+                        if (obj.Properties.TryGetValue("Interactable", out var interVal) && bool.TryParse(interVal?.ToString(), out var inter) && inter)
+                        {
+                            float radius = 24f;
+                            if (obj.Properties.TryGetValue("Radius", out var radVal)) float.TryParse(radVal?.ToString(), out radius);
+                            string? prompt = null;
+                            if (obj.Properties.TryGetValue("Prompt", out var prVal)) prompt = prVal?.ToString();
+                            e.Set(new Interactable { Enabled = true, Radius = radius, Prompt = prompt });
+                        }
+                        if (obj.Properties.TryGetValue("DialogueId", out var did))
+                        {
+                            e.Set(new ANewWorld.Engine.Components.DialogueComponent { DialogueId = did?.ToString() ?? string.Empty });
+                        }
+                    }
+
                     e.Set(new Name(obj.Name));
                 }
             }

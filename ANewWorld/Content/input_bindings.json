@@ -3,5 +3,6 @@
   "MoveDown": ["S", "Down"],
   "MoveLeft": ["A", "Left"],
   "MoveRight": ["D", "Right"],
-  "ToggleOverlay": ["F3"]
+  "ToggleOverlay": ["F3"],
+  "Interact": ["E"]
 }

@@ -6,6 +6,7 @@ using ANewWorld.Engine.Tilemap;
 using System.Linq;
 using ANewWorld.Engine.Extensions;
 using ANewWorld.Engine.Tilemap.Tmx;
+using ANewWorld.Engine.Systems;
 
 namespace ANewWorld.Engine.Debug
 {
@@ -37,7 +38,8 @@ namespace ANewWorld.Engine.Debug
             Vector2? cameraPos = null,
             float cameraZoom = 1f,
             int? visibleEntitiesInView = null,
-            int? culledEntities = null)
+            int? culledEntities = null,
+            InteractionSystem? interaction = null)
         {
             int entityCount = world.GetEntities().AsSet().Count;
             Vector2 playerPos = Vector2.Zero;
@@ -60,6 +62,12 @@ namespace ANewWorld.Engine.Debug
                 debugText += $"\nEnt Visible: {visibleEntitiesInView.Value}, Culled: {culledEntities.Value}";
             }
 
+            if (interaction is not null && interaction.Current.entity.HasValue)
+            {
+                var prompt = interaction.Current.prompt ?? "Interact";
+                debugText += $"\n[E] {prompt}";
+            }
+
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: null);
             spriteBatch.DrawString(_font, debugText, new Vector2(16, 16), Color.Yellow);
 
@@ -69,7 +77,7 @@ namespace ANewWorld.Engine.Debug
                 var gd = spriteBatch.GraphicsDevice;
                 var white = GetWhite(gd);
                 // Minimap rect
-                var miniPos = new Vector2(16, 100);
+                var miniPos = new Vector2(16, 500);
                 var worldW = tmx.Map.Width * tmx.Map.TileWidth;
                 var worldH = tmx.Map.Height * tmx.Map.TileHeight;
                 float scale = 150f / System.MathF.Max(worldW, worldH);

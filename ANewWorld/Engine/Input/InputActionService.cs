@@ -11,6 +11,7 @@ namespace ANewWorld.Engine.Input
         private readonly string _path;
         private Dictionary<string, string[]> _bindings = [];
         private KeyboardState _previousState;
+        private KeyboardState _currentState;
 
         public bool OverlayActive { get; private set; } = true;
 
@@ -19,6 +20,7 @@ namespace ANewWorld.Engine.Input
             _path = path;
             LoadBindings();
             _previousState = Keyboard.GetState();
+            _currentState = _previousState;
         }
 
         public void LoadBindings()
@@ -28,26 +30,29 @@ namespace ANewWorld.Engine.Input
             _bindings = JsonSerializer.Deserialize<Dictionary<string, string[]>>(json) ?? new Dictionary<string, string[]>();
         }
 
+        // Call at start of frame
         public void Update()
         {
-            var ks = Keyboard.GetState();
+            _currentState = Keyboard.GetState();
 
-            if (IsActionPressed("ToggleOverlay", ks))
-            {
+            if (IsActionJustPressed("ToggleOverlay"))
                 OverlayActive = !OverlayActive;
-            }
-
-            _previousState = ks;
         }
 
-        private bool IsActionPressed(string action, KeyboardState ks)
+        // Call once at end of frame
+        public void EndFrame()
+        {
+            _previousState = _currentState;
+        }
+
+        public bool IsActionJustPressed(string action)
         {
             if (!_bindings.TryGetValue(action, out var keys)) return false;
             foreach (var k in keys)
             {
                 if (System.Enum.TryParse<Keys>(k, out var key))
                 {
-                    if (ks.IsKeyDown(key) && !_previousState.IsKeyDown(key)) 
+                    if (_currentState.IsKeyDown(key) && !_previousState.IsKeyDown(key))
                         return true;
                 }
             }
@@ -56,13 +61,12 @@ namespace ANewWorld.Engine.Input
 
         public bool IsActionActive(string action)
         {
-            var ks = Keyboard.GetState();
             if (!_bindings.TryGetValue(action, out var keys)) return false;
             foreach (var k in keys)
             {
                 if (System.Enum.TryParse<Keys>(k, out var key))
                 {
-                    if (ks.IsKeyDown(key)) 
+                    if (_currentState.IsKeyDown(key))
                         return true;
                 }
             }

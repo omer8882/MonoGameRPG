@@ -1,0 +1,30 @@
+{
+  "Dialogues": {
+    "npc_greeting": {
+      "Id": "npc_greeting",
+      "Start": "start",
+      "Nodes": [
+        { "Id": "start", "Text": "Hello there!", "Next": "line2" },
+        { "Id": "line2", "Text": "Welcome to A New World.", "Next": "end" },
+        { "Id": "end", "Text": "See you around!" }
+      ]
+    },
+    "npc_question": {
+      "Id": "npc_question",
+      "Start": "start",
+      "Nodes": [
+        { "Id": "start", "Text": "Do you like choices?",
+          "Choices": [
+            { "Text": "Yes", "Next": "yes" },
+            { "Text": "No", "Next": "no" },
+            { "Text": "Maybe", "Next": "maybe" }
+          ]
+        },
+        { "Id": "yes", "Text": "Great!", "Next": "end" },
+        { "Id": "no", "Text": "That's okay.", "Next": "end" },
+        { "Id": "maybe", "Text": "Think about it.", "Next": "end" },
+        { "Id": "end", "Text": "Bye!" }
+      ]
+    }
+  }
+}
