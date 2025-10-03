@@ -155,18 +155,47 @@ namespace ANewWorld.Engine.Tilemap
 
         private static bool PointInPolygon(Vector2[] polygon, Vector2 p)
         {
-            // Ray-casting algorithm
+            // Early out: treat points on an edge as outside (so movement along edges is allowed)
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+            {
+                var a = polygon[j];
+                var b = polygon[i];
+                // Check if point lies exactly on segment a-b
+                if (IsPointOnSegment(a, b, p))
+                    return false; // on edge -> outside per tests
+            }
+
+            // Ray-casting algorithm (Jordan curve theorem)
             bool inside = false;
             for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
             {
                 var pi = polygon[i];
                 var pj = polygon[j];
-                bool intersect = ((pi.Y > p.Y) != (pj.Y > p.Y)) &&
-                                 (p.X < (pj.X - pi.X) * (p.Y - pi.Y) / (pj.Y - pi.Y + 1e-6f) + pi.X);
-                if (intersect)
+                bool intersects = ((pi.Y > p.Y) != (pj.Y > p.Y)) &&
+                                  (p.X < (pj.X - pi.X) * (p.Y - pi.Y) / (pj.Y - pi.Y) + pi.X);
+                if (intersects)
                     inside = !inside;
             }
             return inside;
+        }
+
+        private static bool IsPointOnSegment(in Vector2 a, in Vector2 b, in Vector2 p)
+        {
+            const float eps = 1e-5f;
+            // Check collinearity via cross product ~ 0
+            var ap = p - a;
+            var ab = b - a;
+            float cross = ap.X * ab.Y - ap.Y * ab.X;
+            if (System.MathF.Abs(cross) > eps)
+                return false;
+            // Check within bounding box
+            float dot = (p.X - a.X) * (b.X - a.X) + (p.Y - a.Y) * (b.Y - a.Y);
+            if (dot < -eps)
+                return false;
+            float ab2 = (b.X - a.X) * (b.X - a.X) + (b.Y - a.Y) * (b.Y - a.Y);
+            if (dot - ab2 > eps)
+                return false;
+            return true;
         }
     }
 }

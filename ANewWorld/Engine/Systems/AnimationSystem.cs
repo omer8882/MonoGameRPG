@@ -25,7 +25,8 @@ namespace ANewWorld.Engine.Systems
                     continue;
 
                 anim.Timer += dt;
-                while (anim.Timer >= clip.FrameDuration)
+                // Advance at most one frame per update to avoid skipping frames within a single tick
+                if (anim.Timer >= clip.FrameDuration)
                 {
                     anim.Timer -= clip.FrameDuration;
                     anim.FrameIndex++;

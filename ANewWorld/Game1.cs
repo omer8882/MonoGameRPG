@@ -48,7 +48,7 @@ namespace ANewWorld
         private DebugOverlayService? _debugOverlay;
         private TmxRenderer? _tmxRenderer;
         private CollisionGridService? _collisionGrid;
-        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields";
+        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway";
         private string _collisionLayerName = "Collisions";
 
         private ObjectTileAnimationSystem? _objectTileAnimSystem;
@@ -233,6 +233,18 @@ namespace ANewWorld
 
         protected override void Draw(GameTime gameTime)
         {
+            // Ensure virtual matches backbuffer
+            int bbW = GraphicsDevice.PresentationParameters.BackBufferWidth;
+            int bbH = GraphicsDevice.PresentationParameters.BackBufferHeight;
+            if (bbW != _virtualWidth || bbH != _virtualHeight)
+            {
+                _virtualWidth = bbW;
+                _virtualHeight = bbH;
+                _virtualTarget?.Dispose();
+                _virtualTarget = new RenderTarget2D(GraphicsDevice, _virtualWidth, _virtualHeight);
+                _camera?.UpdateViewport(_virtualWidth, _virtualHeight);
+            }
+
             GraphicsDevice.SetRenderTarget(_virtualTarget);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
@@ -257,17 +269,15 @@ namespace ANewWorld
 
             GraphicsDevice.SetRenderTarget(null);
 
-            // integer scaling to window size
-            _screenWidth = GraphicsDevice.PresentationParameters.BackBufferWidth;
-            _screenHeight = GraphicsDevice.PresentationParameters.BackBufferHeight;
+            // integer scaling to window size (now 1:1 since virtual==backbuffer)
+            _screenWidth = bbW;
+            _screenHeight = bbH;
 
-            int scale = System.Math.Min(_screenWidth / _virtualWidth, _screenHeight / _virtualHeight);
-            if (scale < 1) scale = 1;
-
+            int scale = 1;
             int scaledWidth = _virtualWidth * scale;
             int scaledHeight = _virtualHeight * scale;
-            int offsetX = (_screenWidth - scaledWidth) / 2;
-            int offsetY = (_screenHeight - scaledHeight) / 2;
+            int offsetX = 0;
+            int offsetY = 0;
 
             GraphicsDevice.Clear(Color.Black);
 
@@ -289,7 +299,9 @@ namespace ANewWorld
                     _camera?.Zoom ?? 1f,
                     _renderSystem?.LastVisibleCount ?? 0,
                     _renderSystem?.LastCulledCount ?? 0,
-                    _interactionSystem);
+                    _interactionSystem,
+                    _virtualWidth,
+                    _virtualHeight);
             }
 
             base.Draw(gameTime);

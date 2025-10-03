@@ -39,7 +39,9 @@ namespace ANewWorld.Engine.Debug
             float cameraZoom = 1f,
             int? visibleEntitiesInView = null,
             int? culledEntities = null,
-            InteractionSystem? interaction = null)
+            InteractionSystem? interaction = null,
+            int virtualWidth = 600,
+            int virtualHeight = 600)
         {
             int entityCount = world.GetEntities().AsSet().Count;
             Vector2 playerPos = Vector2.Zero;
@@ -76,7 +78,6 @@ namespace ANewWorld.Engine.Debug
             {
                 var gd = spriteBatch.GraphicsDevice;
                 var white = GetWhite(gd);
-                // Minimap rect
                 var miniPos = new Vector2(16, 500);
                 var worldW = tmx.Map.Width * tmx.Map.TileWidth;
                 var worldH = tmx.Map.Height * tmx.Map.TileHeight;
@@ -84,15 +85,13 @@ namespace ANewWorld.Engine.Debug
                 var miniRect = new Rectangle((int)miniPos.X, (int)miniPos.Y, (int)(worldW * scale), (int)(worldH * scale));
                 spriteBatch.Draw(white, miniRect, new Color(255, 255, 255, 30));
 
-                // Player dot
                 var p = new Point((int)(miniPos.X + playerPos.X * scale), (int)(miniPos.Y + playerPos.Y * scale));
                 spriteBatch.Draw(white, new Rectangle(p.X - 1, p.Y - 1, 3, 3), Color.Lime);
 
-                // Camera rect (view)
                 if (cameraPos.HasValue)
                 {
-                    float viewW = 600f / cameraZoom; // use virtual size from Game1; could be parameterized
-                    float viewH = 600f / cameraZoom;
+                    float viewW = virtualWidth / cameraZoom;
+                    float viewH = virtualHeight / cameraZoom;
                     var camLeft = cameraPos.Value.X - viewW / 2f;
                     var camTop = cameraPos.Value.Y - viewH / 2f;
                     var camRect = new Rectangle(
@@ -103,7 +102,6 @@ namespace ANewWorld.Engine.Debug
                     DrawRect(spriteBatch, white, camRect, Color.Red);
                 }
 
-                // Culled tiles rect
                 var culled = tmx.LastVisibleWorld;
                 var culledRect = new Rectangle(
                     (int)(miniPos.X + culled.X * scale),
@@ -119,9 +117,9 @@ namespace ANewWorld.Engine.Debug
         private static void DrawRect(SpriteBatch sb, Texture2D white, Rectangle r, Color c)
         {
             sb.Draw(white, new Rectangle(r.Left, r.Top, r.Width, 1), c);
-            sb.Draw(white, new Rectangle(r.Left, r.Bottom, r.Width, 1), c);
+            sb.Draw(white, new Rectangle(r.Left, r.Bottom - 1, r.Width, 1), c);
             sb.Draw(white, new Rectangle(r.Left, r.Top, 1, r.Height), c);
-            sb.Draw(white, new Rectangle(r.Right, r.Top, 1, r.Height), c);
+            sb.Draw(white, new Rectangle(r.Right - 1, r.Top, 1, r.Height), c);
         }
     }
 }

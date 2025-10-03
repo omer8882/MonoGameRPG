@@ -4,8 +4,8 @@ namespace ANewWorld.Engine.Rendering
 {
     public sealed class CameraService
     {
-        public int VirtualWidth { get; }
-        public int VirtualHeight { get; }
+        public int VirtualWidth { get; private set; }
+        public int VirtualHeight { get; private set; }
         public int WorldWidth { get; }
         public int WorldHeight { get; }
 
@@ -24,11 +24,14 @@ namespace ANewWorld.Engine.Rendering
 
         public void Update(in Vector2 target)
         {
-            // No clamping for now
             Vector2 clamped = target;
-            //clamped.X = (float)System.Math.Round(clamped.X);
-            //clamped.Y = (float)System.Math.Round(clamped.Y);
             Position = clamped;
+        }
+
+        public void UpdateViewport(int virtualWidth, int virtualHeight)
+        {
+            VirtualWidth = virtualWidth;
+            VirtualHeight = virtualHeight;
         }
 
         public Matrix GetViewMatrix()

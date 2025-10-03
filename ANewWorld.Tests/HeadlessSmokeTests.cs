@@ -1,6 +1,9 @@
 using Xunit;
 using DefaultEcs;
 using ANewWorld.Engine.Components;
+using ANewWorld.Engine.Systems;
+using Microsoft.Xna.Framework;
+using FluentAssertions;
 
 namespace ANewWorld.Tests
 {
@@ -9,27 +12,23 @@ namespace ANewWorld.Tests
         [Fact]
         public void MovementUpdatesPositionOverTenTicks()
         {
+            // Arrange (Setup)
             using var world = new World();
             var e = world.CreateEntity();
-            e.Set(new Transform { Position = new Microsoft.Xna.Framework.Vector2(0,0), Rotation = 0f, Scale = Microsoft.Xna.Framework.Vector2.One });
-            e.Set(new Velocity { Value = new Microsoft.Xna.Framework.Vector2(1,0) });
+            e.Set(new Transform { Position = new Vector2(0, 0), Rotation = 0f, Scale = Vector2.One });
+            e.Set(new Velocity { Value = new Vector2(1, 0) });
+            var movement = new MovementSystem(world);
 
-            var movement = new DefaultEcs.System.LinearSystem<float>(world.GetEntities().With<Transform>().With<Velocity>().AsSet(), (dt, entity) =>
-            {
-                var t = entity.Get<Transform>();
-                var v = entity.Get<Velocity>();
-                t.Position += v.Value * 10f * dt;
-                entity.Set(t);
-            });
-
+            // Act
             float initialX = e.Get<Transform>().Position.X;
             for (int i = 0; i < 10; i++)
             {
-                movement.Update(1f/60f);
+                movement.Update(1f / 60f);
             }
-
             float finalX = e.Get<Transform>().Position.X;
-            Assert.True(finalX > initialX);
+
+            // Assert
+            finalX.Should().BeGreaterThan(initialX);
         }
     }
 }
