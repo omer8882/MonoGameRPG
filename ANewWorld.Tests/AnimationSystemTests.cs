@@ -82,5 +82,95 @@ namespace ANewWorld.Tests
             e.Get<SpriteAnimatorComponent>().FrameIndex.Should().Be(1);
             e.Get<SpriteComponent>().SourceRect.Should().Be(r1);
         }
+
+        [Fact]
+        public void Animator_Handles_Empty_Clip()
+        {
+            // Arrange
+            using var world = new World();
+            var e = world.CreateEntity();
+            var r0 = new Rectangle(0, 0, 10, 10);
+            var clips = new Dictionary<MovementAnimationKey, AnimationClip>
+            {
+                [new MovementAnimationKey(MovementAction.Idle, Facing.Down)] = new AnimationClip([], 0.01f)
+            };
+            e.Set(new SpriteComponent { SourceRect = r0, Color = Color.White, Origin = Vector2.Zero });
+            e.Set(new SpriteAnimatorComponent { Clips = clips, StateKey = new MovementAnimationKey(MovementAction.Idle, Facing.Down) });
+            var sys = new AnimationSystem(world);
+
+            // Act
+            sys.Update(0.02f);
+
+            // Assert - should not crash, sprite rect unchanged
+            e.Get<SpriteComponent>().SourceRect.Should().Be(r0);
+        }
+
+        [Fact]
+        public void Animator_Handles_Missing_StateKey()
+        {
+            // Arrange
+            using var world = new World();
+            var e = world.CreateEntity();
+            var r0 = new Rectangle(0, 0, 10, 10);
+            var clips = new Dictionary<MovementAnimationKey, AnimationClip>
+            {
+                [new MovementAnimationKey(MovementAction.Idle, Facing.Down)] = new AnimationClip([r0], 0.01f)
+            };
+            e.Set(new SpriteComponent { SourceRect = r0, Color = Color.White, Origin = Vector2.Zero });
+            e.Set(new SpriteAnimatorComponent { Clips = clips, StateKey = new MovementAnimationKey(MovementAction.Walk, Facing.Up) });
+            var sys = new AnimationSystem(world);
+
+            // Act
+            sys.Update(0.02f);
+
+            // Assert - should not crash
+            e.Get<SpriteComponent>().SourceRect.Should().Be(r0);
+        }
+
+        [Fact]
+        public void Animator_IsEnabled_False_Skips_Update()
+        {
+            // Arrange
+            using var world = new World();
+            var e = world.CreateEntity();
+            var r0 = new Rectangle(0, 0, 10, 10);
+            var r1 = new Rectangle(10, 0, 10, 10);
+            var clips = new Dictionary<MovementAnimationKey, AnimationClip>
+            {
+                [new MovementAnimationKey(MovementAction.Idle, Facing.Down)] = new AnimationClip([r0, r1], 0.01f)
+            };
+            e.Set(new SpriteComponent { SourceRect = r0, Color = Color.White, Origin = Vector2.Zero });
+            e.Set(new SpriteAnimatorComponent { Clips = clips, StateKey = new MovementAnimationKey(MovementAction.Idle, Facing.Down) });
+            var sys = new AnimationSystem(world) { IsEnabled = false };
+
+            // Act
+            sys.Update(0.02f);
+
+            // Assert
+            e.Get<SpriteComponent>().SourceRect.Should().Be(r0);
+        }
+
+        [Fact]
+        public void Animator_Single_Frame_Doesnt_Advance()
+        {
+            // Arrange
+            using var world = new World();
+            var e = world.CreateEntity();
+            var r0 = new Rectangle(0, 0, 10, 10);
+            var clips = new Dictionary<MovementAnimationKey, AnimationClip>
+            {
+                [new MovementAnimationKey(MovementAction.Idle, Facing.Down)] = new AnimationClip([r0], 0.01f)
+            };
+            e.Set(new SpriteComponent { SourceRect = r0, Color = Color.White, Origin = Vector2.Zero });
+            e.Set(new SpriteAnimatorComponent { Clips = clips, StateKey = new MovementAnimationKey(MovementAction.Idle, Facing.Down) });
+            var sys = new AnimationSystem(world);
+
+            // Act
+            sys.Update(0.5f);
+
+            // Assert
+            e.Get<SpriteAnimatorComponent>().FrameIndex.Should().Be(0);
+            e.Get<SpriteComponent>().SourceRect.Should().Be(r0);
+        }
     }
 }

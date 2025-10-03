@@ -23,5 +23,18 @@ namespace ANewWorld.Engine.Extensions
             }
             return "";
         }
+
+
+        extension(Entity entity)
+        {
+            public string Name => entity.Has<Name>() ? entity.Get<Name>().Value : "Unnamed";
+
+            public string Tag => entity.Has<Tag>() ? entity.Get<Tag>().Value : "Untagged";
+        }
+
+        extension(World world)
+        {
+            public Entity Player => world.GetEntities().With<Tag>().AsEnumerable().First(e => e.Get<Tag>().Value == "Player");
+        }
     }
 }
