@@ -4,26 +4,293 @@
       "Id": "npc_greeting",
       "Start": "start",
       "Nodes": [
-        { "Id": "start", "Text": "Hello there!", "Next": "line2" },
-        { "Id": "line2", "Text": "Welcome to A New World.", "Next": "end" },
-        { "Id": "end", "Text": "See you around!" }
+        {
+          "Id": "start",
+          "Text": "Hello there!",
+          "Next": "line2"
+        },
+        {
+          "Id": "line2",
+          "Text": "Welcome to A New World.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "See you around!"
+        }
       ]
     },
     "npc_question": {
       "Id": "npc_question",
       "Start": "start",
       "Nodes": [
-        { "Id": "start", "Text": "Do you like choices?",
+        {
+          "Id": "start",
+          "Text": "Do you like choices?",
           "Choices": [
-            { "Text": "Yes", "Next": "yes" },
-            { "Text": "No", "Next": "no" },
-            { "Text": "Maybe", "Next": "maybe" }
+            {
+              "Text": "Yes",
+              "Next": "yes"
+            },
+            {
+              "Text": "No",
+              "Next": "no"
+            },
+            {
+              "Text": "Maybe",
+              "Next": "maybe"
+            }
           ]
         },
-        { "Id": "yes", "Text": "Great!", "Next": "end" },
-        { "Id": "no", "Text": "That's okay.", "Next": "end" },
-        { "Id": "maybe", "Text": "Think about it.", "Next": "end" },
-        { "Id": "end", "Text": "Bye!" }
+        {
+          "Id": "yes",
+          "Text": "Great!",
+          "Next": "end"
+        },
+        {
+          "Id": "no",
+          "Text": "That's okay.",
+          "Next": "end"
+        },
+        {
+          "Id": "maybe",
+          "Text": "Think about it.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Bye!"
+        }
+      ]
+    },
+    "npc_quest": {
+      "Id": "npc_quest",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Oh, Hello there {playerName}! Nice to see you around town here sometimes...",
+          "Next": "offer_adventure"
+        },
+        {
+          "Id": "offer_adventure",
+          "Text": "I heard you are quite an adventurer. Maybe you are interested in a small adventure? There is a thing I need to get sorted...",
+          "Choices": [
+            {
+              "Text": "Yes",
+              "Next": "yes"
+            },
+            {
+              "Text": "No",
+              "Next": "no"
+            },
+            {
+              "Text": "Depends...",
+              "Next": "depends"
+            }
+          ]
+        },
+        {
+          "Id": "no",
+          "Text": "That's okay. Maybe another time."
+        },
+        {
+          "Id": "yes",
+          "Text": "Great, great! Thank you, sir {playerName}. Let me tell you a bit about it though.",
+          "Next": "explanation_yes"
+        },
+        {
+          "Id": "depends",
+          "Text": "Ok so i will tell you whats that about...",
+          "Next": "explanation_depends"
+        },
+        {
+          "Id": "explanation_yes",
+          "Text": "I have lost my sword inside the forest and I don't know exactly who took it cause it's defenetly not where i have left it. if you could help me locate it i will greatly appritiate it. i lost it near the Crevising Rock at the southern border of the forest.",
+          "Next": "good_luck"
+        },
+        {
+          "Id": "explanation_depends",
+          "Text": "I have lost my sword inside the forest and I don't know exactly who took it cause it's defenetly not where i have left it. if you could help me locate it i will greatly appritiate it. i lost it near the Crevising Rock at the southern border of the forest.",
+          "Next": "depends_ask_again"
+        },
+        {
+          "Id": "depends_ask_again",
+          "Text": "So are you in?",
+          "Choices": [
+            {
+              "Text": "Yes",
+              "Next": "good_luck"
+            },
+            {
+              "Text": "No",
+              "Next": "no"
+            }
+          ]
+        },
+        {
+          "Id": "good_luck",
+          "Text": "Great, so all I have to say, adventurer {playerName} is good luck on your adventure. You will be reimbruised.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Good luck!"
+        }
+      ]
+    },
+    "npc_rumor": {
+      "Id": "npc_rumor",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Psst, have you heard the rumors?",
+          "Choices": [
+            { "Text": "Tell me.", "Next": "rumor1" },
+            { "Text": "Not interested.", "Next": "end" }
+          ]
+        },
+        {
+          "Id": "rumor1",
+          "Text": "They say a hidden cave opens at dusk near the river.",
+          "Next": "ask_more"
+        },
+        {
+          "Id": "ask_more",
+          "Text": "Want another tip?",
+          "Choices": [
+            { "Text": "Yes", "Next": "rumor2" },
+            { "Text": "No", "Next": "end" }
+          ]
+        },
+        {
+          "Id": "rumor2",
+          "Text": "Bring a torch—spirits dislike the dark.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Stay safe."
+        }
+      ]
+    },
+    "npc_shopkeep": {
+      "Id": "npc_shopkeep",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Welcome! Looking for something special?",
+          "Choices": [
+            { "Text": "Show me your wares.", "Next": "not_implemented" },
+            { "Text": "Just chatting.", "Next": "smalltalk" },
+            { "Text": "Goodbye.", "Next": "end" }
+          ]
+        },
+        {
+          "Id": "not_implemented",
+          "Text": "Soon I'll have goods to sell. Come back later.",
+          "Next": "end"
+        },
+        {
+          "Id": "smalltalk",
+          "Text": "Weather is good for traveling, isn't it?",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Drop by anytime."
+        }
+      ]
+    },
+    "npc_guard": {
+      "Id": "npc_guard",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Halt! State your business.",
+          "Choices": [
+            { "Text": "Can I pass?", "Next": "pass" },
+            { "Text": "Where am I?", "Next": "location" },
+            { "Text": "Bye.", "Next": "end" }
+          ]
+        },
+        {
+          "Id": "pass",
+          "Text": "Not without a gate pass stamped by the mayor.",
+          "Next": "end"
+        },
+        {
+          "Id": "location",
+          "Text": "You're at the East Gate of Graywind.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Move along."
+        }
+      ]
+    },
+    "npc_trainer": {
+      "Id": "npc_trainer",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Looking to hone your skills?",
+          "Choices": [
+            { "Text": "Train me.", "Next": "train", "Actions": [ { "SetFlag": "trained", "Value": true } ] },
+            { "Text": "Any advice?", "Next": "advice" },
+            { "Text": "Thanks, I'm good.", "Next": "end" },
+            { "Text": "Show me advanced drills.", "Next": "advanced", "Conditions": [ { "Flag": "trained", "Equals": true } ] }
+          ]
+        },
+        {
+          "Id": "train",
+          "Text": "Drop your stance, breathe, and focus. Again!",
+          "Next": "trained_done"
+        },
+        {
+          "Id": "trained_done",
+          "Text": "Good. Come back for advanced drills when ready.",
+          "Next": "end"
+        },
+        {
+          "Id": "advice",
+          "Text": "Keep your feet moving. A still target is an easy target.",
+          "Next": "end"
+        },
+        {
+          "Id": "advanced",
+          "Text": "You earned it. Here's the footwork pattern: step, pivot, strike.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Keep practicing."
+        }
+      ]
+    },
+    "npc_puzzle_hint": {
+      "Id": "npc_puzzle_hint",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "Hey {playerName}, stuck, huh?",
+          "Next": "hint"
+        },
+        {
+          "Id": "hint",
+          "Text": "Count the statues, then light torches in the same order.",
+          "Next": "end"
+        },
+        {
+          "Id": "end",
+          "Text": "Hope that helps."
+        }
       ]
     }
   }

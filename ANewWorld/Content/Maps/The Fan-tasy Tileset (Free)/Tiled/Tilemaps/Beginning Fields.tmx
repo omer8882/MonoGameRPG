@@ -386,7 +386,13 @@
   <object id="86" name="Bag" gid="458" x="292" y="473" width="16" height="14"/>
   <object id="87" name="Bench" gid="451" x="277" y="523" width="14" height="16"/>
   <object id="88" name="Bench" gid="450" x="227" y="495" width="14" height="30"/>
-  <object id="89" name="Board" gid="452" x="246" y="203" width="44" height="42"/>
+  <object id="89" name="Board" gid="452" x="246" y="203" width="44" height="42">
+   <properties>
+    <property name="DialogueId" value="npc_quest"/>
+    <property name="Interactable" type="bool" value="true"/>
+    <property name="Prompt" value="Talk"/>
+   </properties>
+  </object>
   <object id="90" gid="457" x="306" y="258" width="15" height="11"/>
   <object id="91" gid="457" x="46" y="330" width="15" height="11"/>
   <object id="92" gid="457" x="597" y="203" width="15" height="11"/>

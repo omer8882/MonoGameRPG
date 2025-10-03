@@ -734,11 +734,6 @@
 /processor:TiledMapProcessor
 /build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields
 
-#begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields.tmx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields
-
 #begin Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -823,4 +818,10 @@
 /importer:TiledMapTilesetImporter
 /processor:TiledMapTilesetProcessor
 /build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road
+
+#begin Sounds/Effects/typewriter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Effects/typewriter.wav;Sounds/Effects/typewriter
 

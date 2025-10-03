@@ -4,5 +4,6 @@
   "MoveLeft": ["A", "Left"],
   "MoveRight": ["D", "Right"],
   "ToggleOverlay": ["F3"],
-  "Interact": ["E"]
+  "Interact": ["E"],
+  "Advance": ["Space", "Enter"]
 }

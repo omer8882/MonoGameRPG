@@ -18,6 +18,7 @@ using System.Linq;
 using TiledSharp;
 using ANewWorld.Engine.Dialogue;
 using ANewWorld.Engine.UI;
+using ANewWorld.Engine.Audio;
 
 namespace ANewWorld
 {
@@ -58,6 +59,9 @@ namespace ANewWorld
         private DialogueService? _dialogueService;
         private DialogueSystem? _dialogueSystem;
         private DialogueHud? _dialogueHud;
+        private AudioSystem? _audioSystem;
+        private SoundService? _soundService;
+        private AudioBus? _audioBus;
 
         private GameStateService _gameState = new GameStateService();
 
@@ -135,11 +139,18 @@ namespace ANewWorld
 
             _renderSystem.Camera = _camera;
 
+            // Audio system & sound service
+            _soundService = new SoundService(Content);
+            _audioBus = new AudioBus();
+            _audioSystem = new AudioSystem(_ecsWorld!, _soundService, _audioBus);
+
             // Dialogue service and system
             _dialogueService = new DialogueService();
             _dialogueService.Load("Content/dialogues.json");
-            _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions);
+            _dialogueService.Context.Vars["playerName"] = "Omer"; // test substitution
+            _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions, _audioBus);
             _dialogueHud = new DialogueHud(_debugFont);
+
 
             // initial state
             _gameState.Set(GameState.Playing);
@@ -213,6 +224,9 @@ namespace ANewWorld
                 _camera.Update(pos);
             }
 
+            // Update audio system
+            _audioSystem?.Update(dt);
+
             base.Update(gameTime);
             _inputActions?.EndFrame();
         }
@@ -222,7 +236,7 @@ namespace ANewWorld
             GraphicsDevice.SetRenderTarget(_virtualTarget);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // Draw tilemap using TMX renderer
+            // World pass (camera)
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _camera?.GetViewMatrix());
             if (_tmxRenderer != null && _camera != null)
                 _tmxRenderer.Draw(_spriteBatch, _camera);
@@ -230,6 +244,16 @@ namespace ANewWorld
                 _tmxRenderer?.Draw(_spriteBatch, _camera?.GetViewMatrix());
             _renderSystem?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             _spriteBatch.End();
+
+            // HUD in virtual space (no transform)
+            if (_dialogueSystem is not null && _dialogueHud is not null)
+            {
+                _dialogueHud.VirtualWidth = _virtualWidth;
+                _dialogueHud.VirtualHeight = _virtualHeight;
+                _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+                _dialogueHud.Draw(_spriteBatch, _dialogueSystem);
+                _spriteBatch.End();
+            }
 
             GraphicsDevice.SetRenderTarget(null);
 
@@ -251,15 +275,7 @@ namespace ANewWorld
             _spriteBatch.Draw(_virtualTarget, new Rectangle(offsetX, offsetY, scaledWidth, scaledHeight), Color.White);
             _spriteBatch.End();
 
-            // Dialogue HUD
-            if (_dialogueSystem is not null && _dialogueHud is not null)
-            {
-                _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
-                _dialogueHud.Draw(_spriteBatch, _dialogueSystem);
-                _spriteBatch.End();
-            }
-
-            // Debug overlay drawn in window space (after scaling)
+            // Debug overlay in window space
             if (_inputActions!.OverlayActive && _debugOverlay != null && _ecsWorld != null)
             {
                 float fps = 1f / (float)gameTime.ElapsedGameTime.TotalSeconds;
