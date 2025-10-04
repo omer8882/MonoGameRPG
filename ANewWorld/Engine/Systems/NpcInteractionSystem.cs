@@ -104,6 +104,11 @@ namespace ANewWorld.Engine.Systems
         
         private Facing GetFacingFromDirection(Vector2 direction)
         {
+            // In MonoGame/screen space:
+            // X increases RIGHT, Y increases DOWN
+            // direction = player - npc
+            // If player is to the right: direction.X > 0 ? face Right
+            // If player is to the left: direction.X < 0 ? face Left
             if (Math.Abs(direction.X) > Math.Abs(direction.Y))
             {
                 return direction.X > 0 ? Facing.Right : Facing.Left;

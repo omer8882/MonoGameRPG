@@ -8,7 +8,7 @@ Short description
 - Interaction + Dialogue (choices, conditions/actions, variables, typewriter)
 - HUD in virtual space; Debug overlay with minimap
 - Basic audio system (one-shots + loop bus)
-- NPC system (spawn rules, behaviors: idle/patrol/wander, face player on interact)
+- NPC system (spawn rules, behaviors: idle/patrol/wander, face player on interact, animated sprites)
 
 Controls
 - Move: WASD / Arrow keys
@@ -26,7 +26,7 @@ Project structure (high level)
 - Engine/Systems: ECS systems (input, movement, animation, dialogue, audio, NPC AI, etc.)
 - Engine/UI: HUD rendering
 - Engine/Audio: SFX/events/bus
-- Engine/Npc: NPC definitions, spawn rules, service
+- Engine/Npc: NPC definitions, spawn rules, service, animation builder
 - Content: mgcb-managed content (maps, textures, audio, NPCs, dialogues)
 
 TODO (working list)
@@ -44,15 +44,18 @@ Done
 - Virtual screen = backbuffer (dynamic resize)
 - NPC core system (data-driven spawning, behaviors: idle/patrol/wander, face player, restore behavior)
 - NPC tests (movement, brain, interaction, service - 28 tests)
+- NPC animation integration (parse clips from JSON, build dictionaries, AnimationStateSystem integration)
+- NPC animation tests (7 tests for animation builder)
+- Interaction prompt indicator (bobbing speech bubble above interactable NPCs)
 
 NPC System - Next Steps
 Phase 1: Core Visuals (Priority: HIGH)
-- [ ] Animation integration
+- [x] Animation integration
   - Parse animationClips from npcs.json
   - Build animation dictionaries in NpcSpawnerSystem
   - Load sprite textures and create clips
   - NPCs animate via existing AnimationStateSystem
-- [ ] Interaction prompt indicator (speech bubble icon above interactable NPCs)
+- [x] Interaction prompt indicator (speech bubble icon above interactable NPCs)
 - [ ] Shadow sprites under NPCs
 
 Phase 2: Behavior Depth (Priority: MEDIUM)
@@ -103,3 +106,4 @@ Notes
 - Virtual resolution matches backbuffer; Dialogue HUD renders in virtual space before scaling
 - Content paths use mgcb; SFX are loaded by asset name (e.g., Sounds/Effects/typewriter)
 - NPCs defined in npcs.json, spawn rules in npc_spawns.json (separate, data-driven)
+- NPC animations use row-based spritesheet layout (row 0-3 = down/up/left/right)

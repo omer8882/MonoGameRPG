@@ -3,6 +3,7 @@ using DefaultEcs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,11 @@ namespace ANewWorld.Engine.Extensions
             {
                 entity.Set(comp);
                 return entity;
+            }
+
+            public string ToString()
+            {
+                return entity.Name;
             }
         }
 

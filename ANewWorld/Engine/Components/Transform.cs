@@ -7,5 +7,7 @@ namespace ANewWorld.Engine.Components
         public Vector2 Position;
         public float Rotation;
         public Vector2 Scale;
+
+        public override string ToString() => $"Position: {Position}, Scale: {Scale}";
     }
 }

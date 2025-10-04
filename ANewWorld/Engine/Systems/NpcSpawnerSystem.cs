@@ -20,7 +20,7 @@ namespace ANewWorld.Engine.Systems
         private readonly NpcService _npcService;
         private readonly DialogueService _dialogueService;
         private readonly ContentManager _content;
-        private readonly HashSet<string> _spawnedNpcs = new();
+        private readonly HashSet<string> _spawnedNpcs = [];
         
         public NpcSpawnerSystem(World world, NpcService npcService, DialogueService dialogueService, ContentManager content)
         {
@@ -154,16 +154,16 @@ namespace ANewWorld.Engine.Systems
                 entity.Set(new SpriteComponent 
                 { 
                     Texture = texture, 
-                    SourceRect = new Rectangle(0, 0, 64, 64), 
-                    Origin = new Vector2(32, 32), 
+                    SourceRect = new Rectangle(0, 0, def.SpriteWidth, def.SpriteHeight), 
+                    Origin = new Vector2(def.SpriteWidth / 2f, def.SpriteHeight / 2f), 
                     Color = Color.White 
                 });
                 
-                // TODO: Build animation clips from def.AnimationClips
-                // For now, create empty clips dictionary
+                // Build animation clips from definition
+                var animationClips = NpcAnimationBuilder.BuildAnimationClips(def);
                 entity.Set(new SpriteAnimatorComponent 
                 { 
-                    Clips = new Dictionary<MovementAnimationKey, AnimationClip>(),
+                    Clips = animationClips,
                     StateKey = new MovementAnimationKey(MovementAction.Idle, Facing.Down),
                     FrameIndex = 0,
                     Timer = 0

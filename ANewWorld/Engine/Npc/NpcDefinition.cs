@@ -9,11 +9,13 @@ namespace ANewWorld.Engine.Npc
         public string DisplayName { get; set; } = string.Empty;
         public string? Description { get; set; }
         public string SpriteSheet { get; set; } = string.Empty;
+        public int SpriteWidth { get; set; } = 64;
+        public int SpriteHeight { get; set; } = 64;
         public string DefaultBehavior { get; set; } = "Idle";
         public string? DialogueId { get; set; }
         public float InteractRadius { get; set; } = 32f;
         
-        // Animation clips (future: move to external JSON)
+        // Animation clips
         public Dictionary<string, AnimationClipData>? AnimationClips { get; set; }
         
         // Patrol-specific
@@ -28,8 +30,9 @@ namespace ANewWorld.Engine.Npc
 
     public class AnimationClipData
     {
+        public int Row { get; set; }
         public int[] Frames { get; set; } = [];
-        public float Duration { get; set; } = 0.1f;
+        public float FrameDuration { get; set; } = 0.1f;
     }
 
     public class NpcDefinitionData

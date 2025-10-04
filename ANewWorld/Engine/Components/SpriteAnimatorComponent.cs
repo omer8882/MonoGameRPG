@@ -32,6 +32,8 @@ namespace ANewWorld.Engine.Components
         {
             return obj is MovementAnimationKey other && other.Action == Action && other.Direction == Direction;
         }
+
+        public override string ToString() => $"({Action} {Direction})";
     }
 
     public struct SpriteAnimatorComponent
@@ -40,6 +42,8 @@ namespace ANewWorld.Engine.Components
         public MovementAnimationKey StateKey; // current state key
         public int FrameIndex;        // current frame in clip
         public float Timer;           // seconds accumulated
+
+        public override string ToString() => $"State: {StateKey}, Frame: {FrameIndex+1}/{Clips[StateKey].Frames.Count}";
     }
 
     public struct AnimationClip

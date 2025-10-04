@@ -4,6 +4,8 @@ using ANewWorld.Engine.Components;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using ANewWorld.Engine.Rendering;
+using ANewWorld.Engine.Extensions;
+using System;
 
 namespace ANewWorld.Engine.Systems
 {
@@ -33,7 +35,7 @@ namespace ANewWorld.Engine.Systems
             _spriteBatch = spriteBatch;
         }
 
-        public void Update(float dt)
+        public void Draw(float dt)
         {
             var set = _world.GetEntities().With<Transform>().With<SpriteComponent>().AsSet();
 

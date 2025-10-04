@@ -5,7 +5,10 @@
       "npcs": [
         {
           "npcId": "village_elder",
-          "spawnPoint": { "x": 300, "y": 300 },
+          "spawnPoint": {
+            "x": 300,
+            "y": 300
+          },
           "conditions": {
             "requiredFlags": [],
             "forbiddenFlags": []
@@ -13,7 +16,10 @@
         },
         {
           "npcId": "town_guard",
-          "spawnPoint": { "x": 500, "y": 400 },
+          "spawnPoint": {
+            "x": 500,
+            "y": 400
+          },
           "conditions": {
             "requiredFlags": [],
             "forbiddenFlags": []
@@ -21,7 +27,48 @@
         },
         {
           "npcId": "wandering_merchant",
-          "spawnPoint": { "x": 250, "y": 450 },
+          "spawnPoint": {
+            "x": 250,
+            "y": 450
+          },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        }
+      ]
+    },
+    "passway": {
+      "mapId": "passway",
+      "npcs": [
+        {
+          "npcId": "calf",
+          "spawnPoint": {
+            "x": 500,
+            "y": 250
+          },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        },
+        {
+          "npcId": "village_elder",
+          "spawnPoint": {
+            "x": 300,
+            "y": 300
+          },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        },
+        {
+          "npcId": "wandering_merchant",
+          "spawnPoint": {
+            "x": 250,
+            "y": 450
+          },
           "conditions": {
             "requiredFlags": [],
             "forbiddenFlags": []

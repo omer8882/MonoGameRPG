@@ -49,7 +49,11 @@ namespace ANewWorld
         private DebugOverlayService? _debugOverlay;
         private TmxRenderer? _tmxRenderer;
         private CollisionGridService? _collisionGrid;
-        private string _mapAsset = "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway";
+        private Dictionary<string, string> maps = new()
+        {
+            { "beginning_fields", "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Beginning Fields" },
+            { "passway", "Maps/The Fan-tasy Tileset (Free)/Tiled/Tilemaps/Passway" }
+        };
         private string _collisionLayerName = "Collisions";
 
         private ObjectTileAnimationSystem? _objectTileAnimSystem;
@@ -70,6 +74,9 @@ namespace ANewWorld
         private NpcMovementSystem? _npcMovementSystem;
         private NpcBrainSystem? _npcBrainSystem;
         private NpcInteractionSystem? _npcInteractionSystem;
+
+        // UI
+        private InteractionPromptRenderer? _interactionPrompt;
 
         private GameStateService _gameState = new GameStateService();
 
@@ -118,8 +125,8 @@ namespace ANewWorld
             _interactionSystem = new InteractionSystem(_ecsWorld!, _inputActions);
 
             // Load tilemap via custom TMX loader and build atlas
-            
-            var tmxPath = System.IO.Path.Combine("C:\\Users\\omer8\\Omer\\Dev\\Gaming\\A New World\\ANewWorld\\ANewWorld\\Content", _mapAsset + ".tmx");
+            var currentMap = "passway";
+            var tmxPath = System.IO.Path.Combine("C:\\Users\\omer8\\Omer\\Dev\\Gaming\\A New World\\ANewWorld\\ANewWorld\\Content", maps[currentMap] + ".tmx");
             var tmxMap = TmxLoader.LoadFromFile(tmxPath);
             _tmxRenderer = new TmxRenderer(GraphicsDevice, _spriteBatch, tmxMap);
             _tmxRenderer.BuildAtlas(Content);
@@ -159,6 +166,9 @@ namespace ANewWorld
             _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions, _audioBus);
             _dialogueHud = new DialogueHud(_debugFont);
 
+            // Interaction prompt renderer
+            _interactionPrompt = new InteractionPromptRenderer();
+            _interactionPrompt.LoadContent(Content);
 
             // NPC system
             _npcService = new NpcService();
@@ -171,7 +181,7 @@ namespace ANewWorld
             _npcInteractionSystem.SetDialogueSystem(_dialogueSystem);
 
             // Spawn NPCs for current map
-            _npcSpawner.SpawnNpcsForMap("beginning_fields");
+            _npcSpawner.SpawnNpcsForMap(currentMap);
 
             // initial state
             _gameState.Set(GameState.Playing);
@@ -192,19 +202,20 @@ namespace ANewWorld
 
             if (_gameState.Is(GameState.Playing))
             {
-                _inputSystem?.Update(dt);
-                _collisionSystem?.Update(dt);
-                _movementSystem?.Update(dt);
-                _npcMovementSystem?.Update(dt);  // NPC movement
-                _animationSystem?.Update(dt);
-                _facingSystem?.Update(dt);
-                _animStateSystem?.Update(dt);
-                _interactionSystem?.Update(dt);
+                _inputSystem?.Update(dt);           // 1. Player input
+                _collisionSystem?.Update(dt);       // 2. Collision checks
+                _movementSystem?.Update(dt);        // 3. Player movement
+                _npcMovementSystem?.Update(dt);     // 4. NPC movement (sets velocity)
+                _facingSystem?.Update(dt);          // 5. Updates facing from velocity (automatic)
+                _interactionSystem?.Update(dt);     // 6. Creates InteractionStarted events
+                _npcInteractionSystem?.Update(dt);  // 7. Processes events, overwrites NPC facing (manual)
+                _animStateSystem?.Update(dt);       // 8. Updates animation keys based on facing/velocity
+                _animationSystem?.Update(dt);       // 9. Animates frames
             }
 
-            _dialogueSystem?.Update(dt);
-            _npcBrainSystem?.Update(dt);        // NPC brain
-            _npcInteractionSystem?.Update(dt);   // NPC interactions
+            _dialogueSystem?.Update(dt);          // Starts dialogue and disposes InteractionStarted events
+            _npcBrainSystem?.Update(dt);          // NPC AI decision-making
+
 
             // Switch state based on dialogue activity
             if (_dialogueSystem?.IsActive == true && !_gameState.Is(GameState.Dialogue))
@@ -215,6 +226,9 @@ namespace ANewWorld
             // Map/objects continue animating regardless of state
             _tmxRenderer?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             _objectTileAnimSystem?.Update(dt);
+
+            // Update interaction prompt bobbing animation
+            _interactionPrompt?.Update(dt);
 
             // Camera follows only in Playing
             if (_gameState.Is(GameState.Playing))
@@ -277,7 +291,12 @@ namespace ANewWorld
                 _tmxRenderer.Draw(_spriteBatch, _camera);
             else
                 _tmxRenderer?.Draw(_spriteBatch, _camera?.GetViewMatrix());
-            _renderSystem?.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            _renderSystem?.Draw((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            // Draw interaction prompt in world space (with camera transform)
+            if (_gameState.Is(GameState.Playing))
+                _interactionPrompt?.Draw(_spriteBatch, _interactionSystem);
+            
             _spriteBatch.End();
 
             // HUD in virtual space (no transform)

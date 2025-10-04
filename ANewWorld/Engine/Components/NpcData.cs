@@ -8,5 +8,7 @@ namespace ANewWorld.Engine.Components
         public string Id;
         public string DisplayName;
         public string? Description;
+
+        public override string ToString() => $"{Id} ({DisplayName})";
     }
 }

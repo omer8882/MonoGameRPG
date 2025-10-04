@@ -17,10 +17,10 @@ namespace ANewWorld.Engine.Systems
         public void Update(float dt)
         {
             if (!IsEnabled) return;
-            foreach (ref readonly var e in _set.GetEntities())
+            foreach (ref readonly var entity in _set.GetEntities())
             {
-                ref var v = ref e.Get<Velocity>();
-                ref var f = ref e.Get<FacingDirection>();
+                ref var v = ref entity.Get<Velocity>();
+                ref var f = ref entity.Get<FacingDirection>();
                 if (v.Value.LengthSquared() <= 0.0001f)
                     continue;
 

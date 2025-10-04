@@ -32,7 +32,7 @@ namespace ANewWorld.Engine.Systems
             Vector2 playerPos = Vector2.Zero;
             foreach (var e in _players.GetEntities())
             {
-                if (e.Has<Name>() && e.Get<Name>().Value == "Player")
+                if (e.Get<Tag>().Value == "Player")
                 {
                     playerPos = e.Get<Transform>().Position;
                     break;
@@ -45,16 +45,16 @@ namespace ANewWorld.Engine.Systems
             string? prompt = null;
             Vector2 pos = Vector2.Zero;
 
-            foreach (var e in _interactables.GetEntities())
+            foreach (var interactable in _interactables.GetEntities())
             {
-                ref var t = ref e.Get<Transform>();
-                ref var i = ref e.Get<Interactable>();
+                ref var t = ref interactable.Get<Transform>();
+                ref var i = ref interactable.Get<Interactable>();
                 if (!i.Enabled) continue;
                 float r = i.Radius <= 0 ? 24f : i.Radius;
                 float d2 = Vector2.DistanceSquared(playerPos, t.Position);
                 if (d2 <= r * r && d2 < bestDistSq)
                 {
-                    best = e;
+                    best = interactable;
                     bestDistSq = d2;
                     radius = r;
                     prompt = i.Prompt;

@@ -147,8 +147,14 @@
           "Id": "start",
           "Text": "Psst, have you heard the rumors?",
           "Choices": [
-            { "Text": "Tell me.", "Next": "rumor1" },
-            { "Text": "Not interested.", "Next": "end" }
+            {
+              "Text": "Tell me.",
+              "Next": "rumor1"
+            },
+            {
+              "Text": "Not interested.",
+              "Next": "end"
+            }
           ]
         },
         {
@@ -160,13 +166,19 @@
           "Id": "ask_more",
           "Text": "Want another tip?",
           "Choices": [
-            { "Text": "Yes", "Next": "rumor2" },
-            { "Text": "No", "Next": "end" }
+            {
+              "Text": "Yes",
+              "Next": "rumor2"
+            },
+            {
+              "Text": "No",
+              "Next": "end"
+            }
           ]
         },
         {
           "Id": "rumor2",
-          "Text": "Bring a torch—spirits dislike the dark.",
+          "Text": "Bring a torchï¿½spirits dislike the dark.",
           "Next": "end"
         },
         {
@@ -183,9 +195,18 @@
           "Id": "start",
           "Text": "Welcome! Looking for something special?",
           "Choices": [
-            { "Text": "Show me your wares.", "Next": "not_implemented" },
-            { "Text": "Just chatting.", "Next": "smalltalk" },
-            { "Text": "Goodbye.", "Next": "end" }
+            {
+              "Text": "Show me your wares.",
+              "Next": "not_implemented"
+            },
+            {
+              "Text": "Just chatting.",
+              "Next": "smalltalk"
+            },
+            {
+              "Text": "Goodbye.",
+              "Next": "end"
+            }
           ]
         },
         {
@@ -212,9 +233,18 @@
           "Id": "start",
           "Text": "Halt! State your business.",
           "Choices": [
-            { "Text": "Can I pass?", "Next": "pass" },
-            { "Text": "Where am I?", "Next": "location" },
-            { "Text": "Bye.", "Next": "end" }
+            {
+              "Text": "Can I pass?",
+              "Next": "pass"
+            },
+            {
+              "Text": "Where am I?",
+              "Next": "location"
+            },
+            {
+              "Text": "Bye.",
+              "Next": "end"
+            }
           ]
         },
         {
@@ -241,10 +271,34 @@
           "Id": "start",
           "Text": "Looking to hone your skills?",
           "Choices": [
-            { "Text": "Train me.", "Next": "train", "Actions": [ { "SetFlag": "trained", "Value": true } ] },
-            { "Text": "Any advice?", "Next": "advice" },
-            { "Text": "Thanks, I'm good.", "Next": "end" },
-            { "Text": "Show me advanced drills.", "Next": "advanced", "Conditions": [ { "Flag": "trained", "Equals": true } ] }
+            {
+              "Text": "Train me.",
+              "Next": "train",
+              "Actions": [
+                {
+                  "SetFlag": "trained",
+                  "Value": true
+                }
+              ]
+            },
+            {
+              "Text": "Any advice?",
+              "Next": "advice"
+            },
+            {
+              "Text": "Thanks, I'm good.",
+              "Next": "end"
+            },
+            {
+              "Text": "Show me advanced drills.",
+              "Next": "advanced",
+              "Conditions": [
+                {
+                  "Flag": "trained",
+                  "Equals": true
+                }
+              ]
+            }
           ]
         },
         {
@@ -292,6 +346,17 @@
           "Text": "Hope that helps."
         }
       ]
+    },
+    "npc_calf": {
+      "Id": "npc_calf",
+      "Start": "start",
+      "Nodes": [
+        {
+          "Id": "start",
+          "Text": "moooooo..."
+        }
+      ]
     }
+
   }
 }

@@ -11,5 +11,7 @@ namespace ANewWorld.Engine.Components
     public struct FacingDirection
     {
         public Facing Value;
+
+        public override string ToString() => Value.ToString();
     }
 }

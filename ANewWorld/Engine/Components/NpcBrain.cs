@@ -21,5 +21,7 @@ namespace ANewWorld.Engine.Components
         public NpcBehaviorType DefaultBehavior;
         public NpcBehaviorType SavedBehavior; // for restoring after interaction
         public float StateTimer;
+
+        public override string ToString() => CurrentBehavior.ToString();
     }
 }

@@ -4,30 +4,88 @@
       "displayName": "Elder Thomas",
       "description": "The wise village elder",
       "spriteSheet": "Character/DemoPlayer/naked_player",
+      "spriteWidth": 64,
+      "spriteHeight": 64,
       "defaultBehavior": "Idle",
       "dialogueId": "npc_greeting",
-      "interactRadius": 40
+      "interactRadius": 40,
+      "animationClips": {
+        "idleDown": { "row": 0, "frames": [0], "frameDuration": 0.2 },
+        "idleUp": { "row": 1, "frames": [0], "frameDuration": 0.2 },
+        "idleLeft": { "row": 3, "frames": [0], "frameDuration": 0.2 },
+        "idleRight": { "row": 2, "frames": [0], "frameDuration": 0.2 },
+        "walkDown": { "row": 4, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkUp": { "row": 5, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkLeft": { "row": 7, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkRight": { "row": 6, "frames": [0, 1, 2, 3], "frameDuration": 0.15 }
+      }
     },
     "town_guard": {
       "displayName": "Town Guard",
       "description": "A vigilant guard on patrol",
       "spriteSheet": "Character/DemoPlayer/naked_player",
+      "spriteWidth": 64,
+      "spriteHeight": 64,
       "defaultBehavior": "Patrol",
       "dialogueId": "npc_question",
       "interactRadius": 32,
       "patrolWaypoints": [[200, 200], [400, 200], [400, 400], [200, 400]],
       "patrolLoop": true,
-      "patrolWaitTime": 2.0
+      "patrolWaitTime": 2.0,
+      "animationClips": {
+        "idleDown": { "row": 0, "frames": [0], "frameDuration": 0.2 },
+        "idleUp": { "row": 1, "frames": [0], "frameDuration": 0.2 },
+        "idleLeft": { "row": 3, "frames": [0], "frameDuration": 0.2 },
+        "idleRight": { "row": 2, "frames": [0], "frameDuration": 0.2 },
+        "walkDown": { "row": 4, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkUp": { "row": 5, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkLeft": { "row": 7, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkRight": { "row": 6, "frames": [0, 1, 2, 3], "frameDuration": 0.15 }
+      }
     },
     "wandering_merchant": {
       "displayName": "Traveling Merchant",
       "description": "A merchant wandering the village",
       "spriteSheet": "Character/DemoPlayer/naked_player",
+      "spriteWidth": 64,
+      "spriteHeight": 64,
       "defaultBehavior": "Wander",
-      "dialogueId": "npc_greeting",
+      "dialogueId": "npc_trainer",
       "interactRadius": 35,
       "wanderRadius": 80,
-      "wanderWaitTime": 3.0
+      "wanderWaitTime": 3.0,
+      "animationClips": {
+        "idleDown": { "row": 0, "frames": [0], "frameDuration": 0.2 },
+        "idleUp": { "row": 1, "frames": [0], "frameDuration": 0.2 },
+        "idleLeft": { "row": 3, "frames": [0], "frameDuration": 0.2 },
+        "idleRight": { "row": 2, "frames": [0], "frameDuration": 0.2 },
+        "walkDown": { "row": 4, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkUp": { "row": 5, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkLeft": { "row": 7, "frames": [0, 1, 2, 3], "frameDuration": 0.15 },
+        "walkRight": { "row": 6, "frames": [0, 1, 2, 3], "frameDuration": 0.15 }
+      }
+    },
+    "calf": {
+      "displayName": "Calf",
+      "description": "A calf",
+      "spriteSheet": "Character/Animals/Calf",
+      "spriteWidth": 64,
+      "spriteHeight": 64,
+      "defaultBehavior": "Wander",
+      "dialogueId": "npc_calf",
+      "interactRadius": 35,
+      "wanderRadius": 150,
+      "wanderWaitTime": 3.0,
+      "animationClips": {
+        "idleDown": { "row": 4, "frames": [0, 1, 2, 3], "frameDuration": 0.2 },
+        "idleUp": { "row": 5, "frames": [0, 1, 2, 3], "frameDuration": 0.2 },
+        "idleLeft": { "row": 6, "frames": [0, 1, 2, 3], "frameDuration": 0.2 },
+        "idleRight": { "row": 7, "frames": [0, 1, 2, 3], "frameDuration": 0.2 },
+        "walkDown": { "row": 0, "frames": [0, 1, 2, 3, 4, 5], "frameDuration": 0.10 },
+        "walkUp": { "row": 1, "frames": [0, 1, 2, 3, 4, 5], "frameDuration": 0.10 },
+        "walkLeft": { "row": 2, "frames": [0, 1, 2, 3, 4, 5], "frameDuration": 0.10 },
+        "walkRight": { "row": 3, "frames": [0, 1, 2, 3, 4, 5], "frameDuration": 0.10 }
+      }
     }
   }
 }
