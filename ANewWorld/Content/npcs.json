@@ -1,0 +1,33 @@
+{
+  "npcs": {
+    "village_elder": {
+      "displayName": "Elder Thomas",
+      "description": "The wise village elder",
+      "spriteSheet": "Character/DemoPlayer/naked_player",
+      "defaultBehavior": "Idle",
+      "dialogueId": "npc_greeting",
+      "interactRadius": 40
+    },
+    "town_guard": {
+      "displayName": "Town Guard",
+      "description": "A vigilant guard on patrol",
+      "spriteSheet": "Character/DemoPlayer/naked_player",
+      "defaultBehavior": "Patrol",
+      "dialogueId": "npc_question",
+      "interactRadius": 32,
+      "patrolWaypoints": [[200, 200], [400, 200], [400, 400], [200, 400]],
+      "patrolLoop": true,
+      "patrolWaitTime": 2.0
+    },
+    "wandering_merchant": {
+      "displayName": "Traveling Merchant",
+      "description": "A merchant wandering the village",
+      "spriteSheet": "Character/DemoPlayer/naked_player",
+      "defaultBehavior": "Wander",
+      "dialogueId": "npc_greeting",
+      "interactRadius": 35,
+      "wanderRadius": 80,
+      "wanderWaitTime": 3.0
+    }
+  }
+}

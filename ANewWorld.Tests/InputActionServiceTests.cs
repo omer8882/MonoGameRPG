@@ -59,7 +59,7 @@ namespace ANewWorld.Tests
             svc.OverlayActive.Should().BeTrue();
         }
 
-        public void Dispose()
+        internal void Dispose()
         {
             if (File.Exists(TestBindingsPath))
                 File.Delete(TestBindingsPath);

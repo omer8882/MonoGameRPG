@@ -19,6 +19,7 @@ using TiledSharp;
 using ANewWorld.Engine.Dialogue;
 using ANewWorld.Engine.UI;
 using ANewWorld.Engine.Audio;
+using ANewWorld.Engine.Npc;
 
 namespace ANewWorld
 {
@@ -27,7 +28,7 @@ namespace ANewWorld
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private World? _ecsWorld;
-        private InputSystem? _inputSystem;
+        private PlayerMovementInputSystem? _inputSystem;
         private MovementSystem? _movementSystem;
         private RenderSystem? _renderSystem;
         private CollisionSystem? _collisionSystem;
@@ -62,6 +63,13 @@ namespace ANewWorld
         private AudioSystem? _audioSystem;
         private SoundService? _soundService;
         private AudioBus? _audioBus;
+
+        // NPC systems
+        private NpcService? _npcService;
+        private NpcSpawnerSystem? _npcSpawner;
+        private NpcMovementSystem? _npcMovementSystem;
+        private NpcBrainSystem? _npcBrainSystem;
+        private NpcInteractionSystem? _npcInteractionSystem;
 
         private GameStateService _gameState = new GameStateService();
 
@@ -101,7 +109,7 @@ namespace ANewWorld
             // Input actions
             _inputActions = new InputActionService("Content/input_bindings.json");
 
-            _inputSystem = new InputSystem(_ecsWorld, _inputActions);
+            _inputSystem = new PlayerMovementInputSystem(_ecsWorld, _inputActions);
             _movementSystem = new MovementSystem(_ecsWorld);
             _renderSystem = new RenderSystem(_ecsWorld, _spriteBatch);
             _animationSystem = new AnimationSystem(_ecsWorld!);
@@ -131,7 +139,7 @@ namespace ANewWorld
 
             // create player entity via factory
             PlayerFactory.CreatePlayer(
-                _ecsWorld,
+                _ecsWorld!,
                 _playerTexture!,
                 _playerSourceRect,
                 new Vector2(_virtualWidth / 2f, _virtualHeight / 2f)
@@ -151,6 +159,19 @@ namespace ANewWorld
             _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions, _audioBus);
             _dialogueHud = new DialogueHud(_debugFont);
 
+
+            // NPC system
+            _npcService = new NpcService();
+            _npcService.LoadDefinitions("Content/npcs.json");
+            _npcService.LoadSpawnRules("Content/npc_spawns.json");
+            _npcSpawner = new NpcSpawnerSystem(_ecsWorld!, _npcService, _dialogueService, Content);
+            _npcMovementSystem = new NpcMovementSystem(_ecsWorld!);
+            _npcBrainSystem = new NpcBrainSystem(_ecsWorld!);
+            _npcInteractionSystem = new NpcInteractionSystem(_ecsWorld!);
+            _npcInteractionSystem.SetDialogueSystem(_dialogueSystem);
+
+            // Spawn NPCs for current map
+            _npcSpawner.SpawnNpcsForMap("beginning_fields");
 
             // initial state
             _gameState.Set(GameState.Playing);
@@ -174,14 +195,16 @@ namespace ANewWorld
                 _inputSystem?.Update(dt);
                 _collisionSystem?.Update(dt);
                 _movementSystem?.Update(dt);
+                _npcMovementSystem?.Update(dt);  // NPC movement
                 _animationSystem?.Update(dt);
                 _facingSystem?.Update(dt);
                 _animStateSystem?.Update(dt);
                 _interactionSystem?.Update(dt);
             }
 
-            // Dialogue always updates to detect start/end
             _dialogueSystem?.Update(dt);
+            _npcBrainSystem?.Update(dt);        // NPC brain
+            _npcInteractionSystem?.Update(dt);   // NPC interactions
 
             // Switch state based on dialogue activity
             if (_dialogueSystem?.IsActive == true && !_gameState.Is(GameState.Dialogue))

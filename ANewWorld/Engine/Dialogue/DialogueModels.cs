@@ -17,7 +17,7 @@ namespace ANewWorld.Engine.Dialogue
     public sealed class DialogueCondition
     {
         public string Flag { get; set; } = string.Empty;
-        public bool Equals { get; set; } = true;
+        public new bool Equals { get; set; } = true;
     }
 
     public sealed class DialogueAction

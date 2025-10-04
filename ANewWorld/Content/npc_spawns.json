@@ -1,0 +1,33 @@
+{
+  "spawns": {
+    "beginning_fields": {
+      "mapId": "beginning_fields",
+      "npcs": [
+        {
+          "npcId": "village_elder",
+          "spawnPoint": { "x": 300, "y": 300 },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        },
+        {
+          "npcId": "town_guard",
+          "spawnPoint": { "x": 500, "y": 400 },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        },
+        {
+          "npcId": "wandering_merchant",
+          "spawnPoint": { "x": 250, "y": 450 },
+          "conditions": {
+            "requiredFlags": [],
+            "forbiddenFlags": []
+          }
+        }
+      ]
+    }
+  }
+}

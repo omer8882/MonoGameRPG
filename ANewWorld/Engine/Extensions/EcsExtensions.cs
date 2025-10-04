@@ -30,6 +30,12 @@ namespace ANewWorld.Engine.Extensions
             public string Name => entity.Has<Name>() ? entity.Get<Name>().Value : "Unnamed";
 
             public string Tag => entity.Has<Tag>() ? entity.Get<Tag>().Value : "Untagged";
+
+            public Entity With(object comp)
+            {
+                entity.Set(comp);
+                return entity;
+            }
         }
 
         extension(World world)
