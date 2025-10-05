@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using System.Text.Json;
+using Microsoft.Xna.Framework.Content;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld.Engine.Input
 {
@@ -15,9 +16,12 @@ namespace ANewWorld.Engine.Input
 
         public bool OverlayActive { get; private set; } = true;
 
-        public InputActionService(string path)
+        private ContentManager Content { get; }
+
+        public InputActionService(ContentManager content, string path)
         {
             _path = path;
+            Content = content;
             LoadBindings();
             _previousState = Keyboard.GetState();
             _currentState = _previousState;
@@ -25,9 +29,7 @@ namespace ANewWorld.Engine.Input
 
         public void LoadBindings()
         {
-            if (!File.Exists(_path)) return;
-            var json = File.ReadAllText(_path);
-            _bindings = JsonSerializer.Deserialize<Dictionary<string, string[]>>(json) ?? new Dictionary<string, string[]>();
+            _bindings = Content.LoadJson<Dictionary<string, string[]>>(_path);
         }
 
         // Call at start of frame

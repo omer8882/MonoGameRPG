@@ -1,21 +1,27 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Text;
+using Microsoft.Xna.Framework.Content;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld.Engine.Dialogue
 {
     public sealed class DialogueService
     {
         private readonly Dictionary<string, DialogueGraph> _graphs = new();
-        private readonly JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
         public DialogueContext Context { get; } = new DialogueContext();
+
+        private ContentManager content;
+
+        public DialogueService(ContentManager content) 
+        {
+            this.content = content;
+            Load("dialogues.json");
+        }
 
         public void Load(string path)
         {
-            if (!File.Exists(path)) return;
-            var json = File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<DialogueData>(json, options);
+            var data = content.LoadJson<DialogueData>(Path.Combine("Data", path));
             if (data == null) return;
             foreach (var kv in data.Dialogues)
             {

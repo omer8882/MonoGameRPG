@@ -114,7 +114,7 @@ namespace ANewWorld
             _ecsWorld = new World();
 
             // Input actions
-            _inputActions = new InputActionService("Content/input_bindings.json");
+            _inputActions = new InputActionService(Content, "Settings/input_bindings.json");
 
             _inputSystem = new PlayerMovementInputSystem(_ecsWorld, _inputActions);
             _movementSystem = new MovementSystem(_ecsWorld);
@@ -160,8 +160,7 @@ namespace ANewWorld
             _audioSystem = new AudioSystem(_ecsWorld!, _soundService, _audioBus);
 
             // Dialogue service and system
-            _dialogueService = new DialogueService();
-            _dialogueService.Load("Content/dialogues.json");
+            _dialogueService = new DialogueService(Content);
             _dialogueService.Context.Vars["playerName"] = "Omer"; // test substitution
             _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions, _audioBus);
             _dialogueHud = new DialogueHud(_debugFont);
@@ -171,9 +170,7 @@ namespace ANewWorld
             _interactionPrompt.LoadContent(Content);
 
             // NPC system
-            _npcService = new NpcService();
-            _npcService.LoadDefinitions("Content/npcs.json");
-            _npcService.LoadSpawnRules("Content/npc_spawns.json");
+            _npcService = new NpcService(Content);
             _npcSpawner = new NpcSpawnerSystem(_ecsWorld!, _npcService, _dialogueService, Content);
             _npcMovementSystem = new NpcMovementSystem(_ecsWorld!);
             _npcBrainSystem = new NpcBrainSystem(_ecsWorld!);

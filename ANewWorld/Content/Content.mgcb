@@ -122,6 +122,15 @@
 /processorParam:TextureFormat=Color
 /build:Character/DemoPlayer/naked_player.png
 
+#begin Data/NPCs/dialogues.json
+/copy:Data/NPCs/dialogues.json
+
+#begin Data/NPCs/npc_spawns.json
+/copy:Data/NPCs/npc_spawns.json
+
+#begin Data/NPCs/npcs.json
+/copy:Data/NPCs/npcs.json
+
 #begin Fonts/default_font.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -914,6 +923,9 @@
 /importer:TiledMapTilesetImporter
 /processor:TiledMapTilesetProcessor
 /build:Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road.tsx;Maps/The Fan-tasy Tileset (Free)/Tiled/Tilesets/Tilesets_Road
+
+#begin Settings/input_bindings.json
+/copy:Settings/input_bindings.json
 
 #begin Sounds/Effects/typewriter.wav
 /importer:WavImporter

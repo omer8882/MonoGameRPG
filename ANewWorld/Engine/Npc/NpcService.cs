@@ -1,30 +1,30 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using Microsoft.Xna.Framework.Content;
-using ANewWorld.Engine.Serialization;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld.Engine.Npc
 {
     public sealed class NpcService
     {
-        private readonly Dictionary<string, NpcDefinition> _definitions = new();
-        private readonly Dictionary<string, MapSpawnData> _spawnRules = new();
+        private readonly Dictionary<string, NpcDefinition> _definitions = [];
+        private readonly Dictionary<string, MapSpawnData> _spawnRules = [];
 
-        private readonly JsonSerializerOptions options = new()
-        { 
-            PropertyNameCaseInsensitive = true,
-            Converters = { new Vector2JsonConverter() }
-        };
+        private readonly ContentManager content;
 
+        public NpcService(ContentManager content)
+        {
+            this.content = content;
+
+            string basePath = Path.Combine("Content", "Data");
+            LoadDefinitions(Path.Combine(basePath, "npcs.json"));
+            LoadSpawnRules(Path.Combine(basePath, "npc_spawns.json"));
+        }
 
         public void LoadDefinitions(string path)
         {
-            if (!File.Exists(path)) return;
-            
-            var json = File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<NpcDefinitionData>(json, options);
-            
+            var data = content.LoadJson<NpcDefinitionData>(path);
+
             if (data?.Npcs == null) return;
             
             foreach (var kvp in data.Npcs)
@@ -36,11 +36,8 @@ namespace ANewWorld.Engine.Npc
         
         public void LoadSpawnRules(string path)
         {
-            if (!File.Exists(path)) return;
-            
-            var json = File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<NpcSpawnData>(json, options);
-            
+            var data = content.LoadJson<NpcSpawnData>(path);
+
             if (data?.Spawns == null) return;
             
             foreach (var kvp in data.Spawns)

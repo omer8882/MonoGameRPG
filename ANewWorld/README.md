@@ -29,7 +29,7 @@ Project structure (high level)
 - Engine/Npc: NPC definitions, spawn rules, service, animation builder
 - Content: mgcb-managed content (maps, textures, audio, NPCs, dialogues)
 
-TODO (working list)
+## TODO (working list)
 
 Done
 - Animated tiles (layers + tile objects) with per-gid atlas
@@ -45,17 +45,16 @@ Done
 - NPC core system (data-driven spawning, behaviors: idle/patrol/wander, face player, restore behavior)
 - NPC tests (movement, brain, interaction, service - 28 tests)
 - NPC animation integration (parse clips from JSON, build dictionaries, AnimationStateSystem integration)
-- NPC animation tests (7 tests for animation builder)
 - Interaction prompt indicator (bobbing speech bubble above interactable NPCs)
 
-NPC System - Next Steps
+### NPC Todo
 Phase 1: Core Visuals (Priority: HIGH)
-- [x] Animation integration
+- [V] Animation integration
   - Parse animationClips from npcs.json
   - Build animation dictionaries in NpcSpawnerSystem
   - Load sprite textures and create clips
   - NPCs animate via existing AnimationStateSystem
-- [x] Interaction prompt indicator (speech bubble icon above interactable NPCs)
+- [V] Interaction prompt indicator (speech bubble icon above interactable NPCs)
 - [ ] Shadow sprites under NPCs
 
 Phase 2: Behavior Depth (Priority: MEDIUM)

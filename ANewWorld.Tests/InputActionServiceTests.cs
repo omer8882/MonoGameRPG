@@ -3,31 +3,47 @@ using ANewWorld.Engine.Input;
 using FluentAssertions;
 using System.IO;
 using System.Text.Json;
+using NSubstitute;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld.Tests
 {
-    public class InputActionServiceTests
+    public class InputActionServiceTests : IDisposable
     {
+        private const string TestRootPath = "TestContent";
         private const string TestBindingsPath = "test_input_bindings.json";
+        private readonly ContentManager _contentManager;
 
         public InputActionServiceTests()
         {
-            // Arrange - Create test bindings file
-            var bindings = new
+            // Create test content directory and file
+            Directory.CreateDirectory(TestRootPath);
+            
+            var bindings = new Dictionary<string, string[]>
             {
-                MoveUp = new[] { "W", "Up" },
-                MoveDown = new[] { "S", "Down" },
-                Jump = new[] { "Space" },
-                Attack = new[] { "LeftControl", "Z" }
+                { "MoveUp", new[] { "W", "Up" } },
+                { "MoveDown", new[] { "S", "Down" } },
+                { "Jump", new[] { "Space" } },
+                { "Attack", new[] { "LeftControl", "Z" } }
             };
-            File.WriteAllText(TestBindingsPath, JsonSerializer.Serialize(bindings));
+            
+            var fullPath = Path.Combine(TestRootPath, TestBindingsPath);
+            File.WriteAllText(fullPath, JsonSerializer.Serialize(bindings));
+
+            // Create ContentManager with test root
+            var serviceProvider = new GameServiceContainer();
+            _contentManager = new ContentManager(serviceProvider, TestRootPath);
         }
 
         [Fact]
         public void LoadBindings_Reads_From_File()
         {
             // Arrange
-            var svc = new InputActionService(TestBindingsPath);
+            var svc = new InputActionService(_contentManager, TestBindingsPath);
 
             // Act
             svc.LoadBindings();
@@ -39,30 +55,28 @@ namespace ANewWorld.Tests
         [Fact]
         public void LoadBindings_Handles_Missing_File()
         {
-            // Arrange
-            var svc = new InputActionService("nonexistent.json");
+            // Arrange & Act
+            var act = () => new InputActionService(_contentManager, "nonexistent.json");
 
-            // Act
-            svc.LoadBindings();
-
-            // Assert - should not crash
-            svc.Should().NotBeNull();
+            // Assert - should throw FileNotFoundException
+            act.Should().Throw<FileNotFoundException>();
         }
 
         [Fact]
         public void OverlayActive_Defaults_To_True()
         {
             // Arrange
-            var svc = new InputActionService(TestBindingsPath);
+            var svc = new InputActionService(_contentManager, TestBindingsPath);
 
             // Act / Assert
             svc.OverlayActive.Should().BeTrue();
         }
 
-        internal void Dispose()
+        public void Dispose()
         {
-            if (File.Exists(TestBindingsPath))
-                File.Delete(TestBindingsPath);
+            _contentManager?.Dispose();
+            if (Directory.Exists(TestRootPath))
+                Directory.Delete(TestRootPath, recursive: true);
         }
     }
 }
