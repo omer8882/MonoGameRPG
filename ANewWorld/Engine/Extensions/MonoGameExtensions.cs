@@ -33,7 +33,7 @@ namespace ANewWorld.Engine.Extensions
             public T LoadJson<T>(string assetSubpath)
             {
                 var path = Path.Combine(content.RootDirectory, assetSubpath);
-                if(!File.Exists(path)) throw new FileNotFoundException($"JSON file not found at path: {path}");
+                if (!File.Exists(path)) throw new FileNotFoundException($"JSON file not found at path: {path}");
                 string json = File.ReadAllText(path);
                 return JsonSerializer.Deserialize<T>(json, options) ?? throw new JsonException($"Failed to deserialize JSON from {path} to type {typeof(T).FullName}");
             }

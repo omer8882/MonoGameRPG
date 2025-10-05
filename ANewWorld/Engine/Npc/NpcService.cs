@@ -16,7 +16,7 @@ namespace ANewWorld.Engine.Npc
         {
             this.content = content;
 
-            string basePath = Path.Combine("Content", "Data");
+            string basePath = Path.Combine("Data", "NPCs");
             LoadDefinitions(Path.Combine(basePath, "npcs.json"));
             LoadSpawnRules(Path.Combine(basePath, "npc_spawns.json"));
         }

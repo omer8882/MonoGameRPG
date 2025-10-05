@@ -16,12 +16,13 @@ namespace ANewWorld.Engine.Dialogue
         public DialogueService(ContentManager content) 
         {
             this.content = content;
-            Load("dialogues.json");
+            string basePath = Path.Combine("Data", "NPCs");
+            Load(Path.Combine(basePath, "dialogues.json"));
         }
 
         public void Load(string path)
         {
-            var data = content.LoadJson<DialogueData>(Path.Combine("Data", path));
+            var data = content.LoadJson<DialogueData>(path);
             if (data == null) return;
             foreach (var kv in data.Dialogues)
             {
