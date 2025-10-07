@@ -10,12 +10,8 @@ namespace ANewWorld.Engine.Npc
         private readonly Dictionary<string, NpcDefinition> _definitions = [];
         private readonly Dictionary<string, MapSpawnData> _spawnRules = [];
 
-        private readonly ContentManager content;
-
-        public NpcService(ContentManager content)
+        public NpcService()
         {
-            this.content = content;
-
             string basePath = Path.Combine("Data", "NPCs");
             LoadDefinitions(Path.Combine(basePath, "npcs.json"));
             LoadSpawnRules(Path.Combine(basePath, "npc_spawns.json"));
@@ -23,7 +19,7 @@ namespace ANewWorld.Engine.Npc
 
         public void LoadDefinitions(string path)
         {
-            var data = content.LoadJson<NpcDefinitionData>(path);
+            var data = ContentLoader.LoadJson<NpcDefinitionData>(path);
 
             if (data?.Npcs == null) return;
             
@@ -36,7 +32,7 @@ namespace ANewWorld.Engine.Npc
         
         public void LoadSpawnRules(string path)
         {
-            var data = content.LoadJson<NpcSpawnData>(path);
+            var data = ContentLoader.LoadJson<NpcSpawnData>(path);
 
             if (data?.Spawns == null) return;
             

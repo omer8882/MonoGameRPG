@@ -16,28 +16,33 @@ namespace ANewWorld.Tests
     {
         private readonly string _testRootPath;
         private const string TestBindingsPath = "test_input_bindings.json";
-        private const string TestDialoguesPath = "Data/dialogues.json";
+        private const string TestDialoguesPath = "Content/Data/NPCs/dialogues.json";
         private readonly ContentManager _contentManager;
         private readonly string _basePath;
+        private readonly string _originalDirectory;
 
         public NpcInteractionSystemTests()
         {
+            // Save original directory to restore later
+            _originalDirectory = Directory.GetCurrentDirectory();
+            
             // Use unique directory per test instance to avoid parallel test conflicts
             _testRootPath = $"TestContent_NpcInteraction_{Guid.NewGuid():N}";
             _basePath = Path.GetFullPath(_testRootPath);
             
-            // Create test content directory and files
+            // Create test content directory structure (DialogueService expects Data/NPCs subdirectory)
             Directory.CreateDirectory(_basePath);
-            Directory.CreateDirectory(Path.Combine(_basePath, "Data"));
+            Directory.CreateDirectory(Path.Combine(_basePath, "Content", "Data"));
+            Directory.CreateDirectory(Path.Combine(_basePath, "Content", "Data", "NPCs"));
             
             // Create test input bindings
             var bindings = new Dictionary<string, string[]>
             {
-                { "Interact", new[] { "E" } },
-                { "Continue", new[] { "Space", "E" } }
+                { "Interact", ["E"] },
+                { "Continue", [ "Space", "E" ] }
             };
             
-            var bindingsPath = Path.Combine(_basePath, TestBindingsPath);
+            var bindingsPath = Path.Combine(_basePath, "Content", TestBindingsPath);
             File.WriteAllText(bindingsPath, JsonSerializer.Serialize(bindings));
 
             // Create test dialogues
@@ -45,16 +50,19 @@ namespace ANewWorld.Tests
             {
                 Dialogues = new Dictionary<string, object>
                 {
-                    { "test_dialogue", new { Nodes = new object[] { } } }
+                    { "test_dialogue", new { Nodes = Array.Empty<object>() } }
                 }
             };
             
             var dialoguesPath = Path.Combine(_basePath, TestDialoguesPath);
             File.WriteAllText(dialoguesPath, JsonSerializer.Serialize(dialogues));
 
-            // Create ContentManager with test root
+            // Create ContentManager with test root (for InputActionService)
             var serviceProvider = new GameServiceContainer();
             _contentManager = new ContentManager(serviceProvider, _basePath);
+            
+            // Set the current directory to the test root so DialogueService can find the files
+            Directory.SetCurrentDirectory(_basePath);
         }
 
         [Fact]
@@ -131,10 +139,10 @@ namespace ANewWorld.Tests
                 SavedBehavior = NpcBehaviorType.Wander
             });
             
-            // Create services with ContentManager
-            var dialogueService = new ANewWorld.Engine.Dialogue.DialogueService(_contentManager);
-            var inputService = new ANewWorld.Engine.Input.InputActionService(_contentManager, TestBindingsPath);
-            var audioBus = new ANewWorld.Engine.Audio.AudioBus();
+            // Create services (DialogueService no longer needs ContentManager)
+            var dialogueService = new Engine.Dialogue.DialogueService();
+            var inputService = new Engine.Input.InputActionService(TestBindingsPath);
+            var audioBus = new Engine.Audio.AudioBus();
             var dialogueSystem = new DialogueSystem(world, dialogueService, inputService, audioBus);
             
             var system = new NpcInteractionSystem(world);
@@ -224,6 +232,16 @@ namespace ANewWorld.Tests
         public void Dispose()
         {
             _contentManager?.Dispose();
+            
+            // Restore original directory
+            try
+            {
+                Directory.SetCurrentDirectory(_originalDirectory);
+            }
+            catch
+            {
+                // Ignore errors restoring directory
+            }
             
             // Clean up test directory
             try

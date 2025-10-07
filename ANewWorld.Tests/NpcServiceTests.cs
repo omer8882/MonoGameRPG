@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content;
 using System;
 
 namespace ANewWorld.Tests
@@ -13,21 +12,23 @@ namespace ANewWorld.Tests
     public class NpcServiceTests : IDisposable
     {
         private readonly string _testRootPath;
-        private const string TestNpcsPath = "Content/Data/npcs.json";
-        private const string TestSpawnsPath = "Content/Data/npc_spawns.json";
-        private readonly ContentManager _contentManager;
-        private readonly string _basePath;
+        private const string TestNpcsPath = "Content/Data/NPCs/npcs.json";
+        private const string TestSpawnsPath = "Content/Data/NPCs/npc_spawns.json";
+        private readonly string _originalDirectory;
 
         public NpcServiceTests()
         {
+            // Save original directory to restore later
+            _originalDirectory = Directory.GetCurrentDirectory();
+            
             // Use unique directory per test instance to avoid parallel test conflicts
             _testRootPath = $"TestContent_NpcService_{Guid.NewGuid():N}";
-            _basePath = Path.GetFullPath(_testRootPath);
             
-            // Create test content directory and files (NpcService expects Content/Data subdirectory)
-            Directory.CreateDirectory(_basePath);
-            Directory.CreateDirectory(Path.Combine(_basePath, "Content"));
-            Directory.CreateDirectory(Path.Combine(_basePath, "Content", "Data"));
+            // Create test content directory structure (NpcService expects Data/NPCs subdirectory)
+            var basePath = Path.GetFullPath(_testRootPath);
+            Directory.CreateDirectory(basePath);
+            Directory.CreateDirectory(Path.Combine(basePath, "Content", "Data"));
+            Directory.CreateDirectory(Path.Combine(basePath, "Content", "Data", "NPCs"));
             
             // Create test NPC definitions
             var npcs = new
@@ -65,7 +66,7 @@ namespace ANewWorld.Tests
                 }
             };
             
-            var npcsPath = Path.Combine(_basePath, TestNpcsPath);
+            var npcsPath = Path.Combine(basePath, TestNpcsPath);
             File.WriteAllText(npcsPath, JsonSerializer.Serialize(npcs));
 
             // Create test spawn rules
@@ -91,19 +92,18 @@ namespace ANewWorld.Tests
                 }
             };
             
-            var spawnsPath = Path.Combine(_basePath, TestSpawnsPath);
+            var spawnsPath = Path.Combine(basePath, TestSpawnsPath);
             File.WriteAllText(spawnsPath, JsonSerializer.Serialize(spawns));
 
-            // Create ContentManager with test root
-            var serviceProvider = new GameServiceContainer();
-            _contentManager = new ContentManager(serviceProvider, _basePath);
+            // Set the current directory to the test root so NpcService can find the files
+            Directory.SetCurrentDirectory(basePath);
         }
 
         [Fact]
         public void Constructor_Loads_Definitions_And_Spawn_Rules()
         {
             // Arrange & Act
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Assert
             var elder = service.GetDefinition("village_elder");
@@ -115,7 +115,7 @@ namespace ANewWorld.Tests
         public void GetDefinition_Returns_Null_For_Unknown_NPC()
         {
             // Arrange
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Act
             var result = service.GetDefinition("unknown_npc");
@@ -128,7 +128,7 @@ namespace ANewWorld.Tests
         public void GetSpawnRulesForMap_Returns_Null_For_Unknown_Map()
         {
             // Arrange
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Act
             var result = service.GetSpawnRulesForMap("unknown_map");
@@ -141,7 +141,7 @@ namespace ANewWorld.Tests
         public void Loaded_NPC_Has_Correct_Properties()
         {
             // Arrange
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Act
             var guard = service.GetDefinition("town_guard");
@@ -160,7 +160,7 @@ namespace ANewWorld.Tests
         public void Loaded_Spawn_Rules_Have_Correct_Properties()
         {
             // Arrange
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Act
             var spawns = service.GetSpawnRulesForMap("beginning_fields");
@@ -179,7 +179,7 @@ namespace ANewWorld.Tests
         public void GetSpawnRulesForMap_Returns_Valid_Data()
         {
             // Arrange
-            var service = new NpcService(_contentManager);
+            var service = new NpcService();
 
             // Act
             var spawns = service.GetSpawnRulesForMap("beginning_fields");
@@ -191,13 +191,22 @@ namespace ANewWorld.Tests
 
         public void Dispose()
         {
-            _contentManager?.Dispose();
+            // Restore original directory
+            try
+            {
+                Directory.SetCurrentDirectory(_originalDirectory);
+            }
+            catch
+            {
+                // Ignore errors restoring directory
+            }
             
             // Clean up test directory
             try
             {
-                if (Directory.Exists(_basePath))
-                    Directory.Delete(_basePath, recursive: true);
+                var basePath = Path.GetFullPath(_testRootPath);
+                if (Directory.Exists(basePath))
+                    Directory.Delete(basePath, recursive: true);
             }
             catch (IOException)
             {

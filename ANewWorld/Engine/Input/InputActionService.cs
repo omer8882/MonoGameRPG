@@ -16,12 +16,9 @@ namespace ANewWorld.Engine.Input
 
         public bool OverlayActive { get; private set; } = true;
 
-        private ContentManager Content { get; }
-
-        public InputActionService(ContentManager content, string path)
+        public InputActionService(string path)
         {
             _path = path;
-            Content = content;
             LoadBindings();
             _previousState = Keyboard.GetState();
             _currentState = _previousState;
@@ -29,7 +26,7 @@ namespace ANewWorld.Engine.Input
 
         public void LoadBindings()
         {
-            _bindings = Content.LoadJson<Dictionary<string, string[]>>(_path);
+            _bindings = ContentLoader.LoadJson<Dictionary<string, string[]>>(_path);
         }
 
         // Call at start of frame

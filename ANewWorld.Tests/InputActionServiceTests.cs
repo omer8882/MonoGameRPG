@@ -14,9 +14,8 @@ namespace ANewWorld.Tests
 {
     public class InputActionServiceTests : IDisposable
     {
-        private const string TestRootPath = "TestContent";
+        private const string TestRootPath = "Content";
         private const string TestBindingsPath = "test_input_bindings.json";
-        private readonly ContentManager _contentManager;
 
         public InputActionServiceTests()
         {
@@ -33,17 +32,13 @@ namespace ANewWorld.Tests
             
             var fullPath = Path.Combine(TestRootPath, TestBindingsPath);
             File.WriteAllText(fullPath, JsonSerializer.Serialize(bindings));
-
-            // Create ContentManager with test root
-            var serviceProvider = new GameServiceContainer();
-            _contentManager = new ContentManager(serviceProvider, TestRootPath);
         }
 
         [Fact]
         public void LoadBindings_Reads_From_File()
         {
             // Arrange
-            var svc = new InputActionService(_contentManager, TestBindingsPath);
+            var svc = new InputActionService(TestBindingsPath);
 
             // Act
             svc.LoadBindings();
@@ -56,7 +51,7 @@ namespace ANewWorld.Tests
         public void LoadBindings_Handles_Missing_File()
         {
             // Arrange & Act
-            var act = () => new InputActionService(_contentManager, "nonexistent.json");
+            var act = () => new InputActionService("nonexistent.json");
 
             // Assert - should throw FileNotFoundException
             act.Should().Throw<FileNotFoundException>();
@@ -66,7 +61,7 @@ namespace ANewWorld.Tests
         public void OverlayActive_Defaults_To_True()
         {
             // Arrange
-            var svc = new InputActionService(_contentManager, TestBindingsPath);
+            var svc = new InputActionService(TestBindingsPath);
 
             // Act / Assert
             svc.OverlayActive.Should().BeTrue();
@@ -74,7 +69,6 @@ namespace ANewWorld.Tests
 
         public void Dispose()
         {
-            _contentManager?.Dispose();
             if (Directory.Exists(TestRootPath))
                 Directory.Delete(TestRootPath, recursive: true);
         }

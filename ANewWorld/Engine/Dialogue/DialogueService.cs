@@ -11,18 +11,15 @@ namespace ANewWorld.Engine.Dialogue
         private readonly Dictionary<string, DialogueGraph> _graphs = new();
         public DialogueContext Context { get; } = new DialogueContext();
 
-        private ContentManager content;
-
-        public DialogueService(ContentManager content) 
+        public DialogueService() 
         {
-            this.content = content;
             string basePath = Path.Combine("Data", "NPCs");
             Load(Path.Combine(basePath, "dialogues.json"));
         }
 
         public void Load(string path)
         {
-            var data = content.LoadJson<DialogueData>(path);
+            var data = ContentLoader.LoadJson<DialogueData>(path);
             if (data == null) return;
             foreach (var kv in data.Dialogues)
             {

@@ -20,6 +20,7 @@ using ANewWorld.Engine.Dialogue;
 using ANewWorld.Engine.UI;
 using ANewWorld.Engine.Audio;
 using ANewWorld.Engine.Npc;
+using ANewWorld.Engine.Extensions;
 
 namespace ANewWorld
 {
@@ -78,12 +79,13 @@ namespace ANewWorld
         // UI
         private InteractionPromptRenderer? _interactionPrompt;
 
-        private GameStateService _gameState = new GameStateService();
+        private readonly GameStateService _gameState = new GameStateService();
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            ContentLoader.ContentManager = Content;
             IsMouseVisible = true;
             Window.AllowUserResizing = true;
             TargetElapsedTime = System.TimeSpan.FromSeconds(1.0 / 60.0);
@@ -114,7 +116,7 @@ namespace ANewWorld
             _ecsWorld = new World();
 
             // Input actions
-            _inputActions = new InputActionService(Content, "Settings/input_bindings.json");
+            _inputActions = new InputActionService("Settings/input_bindings.json");
 
             _inputSystem = new PlayerMovementInputSystem(_ecsWorld, _inputActions);
             _movementSystem = new MovementSystem(_ecsWorld);
@@ -160,7 +162,7 @@ namespace ANewWorld
             _audioSystem = new AudioSystem(_ecsWorld!, _soundService, _audioBus);
 
             // Dialogue service and system
-            _dialogueService = new DialogueService(Content);
+            _dialogueService = new DialogueService();
             _dialogueService.Context.Vars["playerName"] = "Omer"; // test substitution
             _dialogueSystem = new DialogueSystem(_ecsWorld!, _dialogueService, _inputActions, _audioBus);
             _dialogueHud = new DialogueHud(_debugFont);
@@ -170,7 +172,7 @@ namespace ANewWorld
             _interactionPrompt.LoadContent(Content);
 
             // NPC system
-            _npcService = new NpcService(Content);
+            _npcService = new NpcService();
             _npcSpawner = new NpcSpawnerSystem(_ecsWorld!, _npcService, _dialogueService, Content);
             _npcMovementSystem = new NpcMovementSystem(_ecsWorld!);
             _npcBrainSystem = new NpcBrainSystem(_ecsWorld!);
