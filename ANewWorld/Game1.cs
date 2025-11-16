@@ -21,6 +21,7 @@ using ANewWorld.Engine.UI;
 using ANewWorld.Engine.Audio;
 using ANewWorld.Engine.Npc;
 using ANewWorld.Engine.Extensions;
+using ANewWorld.Engine.Items;
 
 namespace ANewWorld
 {
@@ -75,6 +76,11 @@ namespace ANewWorld
         private NpcMovementSystem? _npcMovementSystem;
         private NpcBrainSystem? _npcBrainSystem;
         private NpcInteractionSystem? _npcInteractionSystem;
+
+        // Items
+        private ItemService? _itemService;
+        private InventoryService? _inventoryService;
+        private InventorySystem? _inventorySystem;
 
         // UI
         private InteractionPromptRenderer? _interactionPrompt;
@@ -182,6 +188,11 @@ namespace ANewWorld
             // Spawn NPCs for current map
             _npcSpawner.SpawnNpcsForMap(currentMap);
 
+            // Item system
+            _itemService = new ItemService();
+            _inventoryService = new InventoryService(_itemService);
+            _inventorySystem = new InventorySystem(_ecsWorld!, _itemService);
+
             // initial state
             _gameState.Set(GameState.Playing);
 
@@ -208,8 +219,9 @@ namespace ANewWorld
                 _facingSystem?.Update(dt);          // 5. Updates facing from velocity (automatic)
                 _interactionSystem?.Update(dt);     // 6. Creates InteractionStarted events
                 _npcInteractionSystem?.Update(dt);  // 7. Processes events, overwrites NPC facing (manual)
-                _animStateSystem?.Update(dt);       // 8. Updates animation keys based on facing/velocity
-                _animationSystem?.Update(dt);       // 9. Animates frames
+                _inventorySystem?.Update(dt);       // 8. Sanitises inventory stacks
+                _animStateSystem?.Update(dt);       // 9. Updates animation keys based on facing/velocity
+                _animationSystem?.Update(dt);       // 10. Animates frames
             }
 
             _dialogueSystem?.Update(dt);          // Starts dialogue and disposes InteractionStarted events
@@ -350,6 +362,7 @@ namespace ANewWorld
 
         protected override void UnloadContent()
         {
+            _inventorySystem?.Dispose();
             _ecsWorld?.Dispose();
             base.UnloadContent();
         }

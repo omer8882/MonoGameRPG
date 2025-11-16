@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ANewWorld.Engine.Components;
 using System.Collections.Generic;
+using ANewWorld.Engine.Items;
 
 namespace ANewWorld.Engine.Game
 {
@@ -53,6 +54,7 @@ namespace ANewWorld.Engine.Game
 
             entity.Set(new Tag("Player"));
             entity.Set(new Name("Player"));
+            entity.Set(new InventoryComponent());
             return entity;
         }
     }

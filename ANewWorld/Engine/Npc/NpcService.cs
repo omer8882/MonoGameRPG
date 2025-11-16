@@ -21,7 +21,7 @@ namespace ANewWorld.Engine.Npc
         {
             var data = ContentLoader.LoadJson<NpcDefinitionData>(path);
 
-            if (data?.Npcs == null) return;
+            if (data?.Npcs is null) return;
             
             foreach (var kvp in data.Npcs)
             {

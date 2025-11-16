@@ -1,0 +1,22 @@
+{
+  "items": {
+    "healing_potion": {
+      "displayName": "Healing Potion",
+      "description": "Restores a small amount of health.",
+      "icon": "Data/Items/Icons/healing_potion.png",
+      "maxStack": 10,
+      "properties": {
+        "heal": 25
+      }
+    },
+    "mana_tonic": {
+      "displayName": "Mana Tonic",
+      "description": "Replenishes a bit of mana.",
+      "icon": "Data/Items/Icons/mana_tonic.png",
+      "maxStack": 5,
+      "properties": {
+        "mana": 15
+      }
+    }
+  }
+}
