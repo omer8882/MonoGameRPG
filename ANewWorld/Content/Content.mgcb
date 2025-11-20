@@ -122,6 +122,72 @@
 /processorParam:TextureFormat=Color
 /build:Character/DemoPlayer/naked_player.png
 
+#begin Data/Items/Icons/fancy_key.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Data/Items/Icons/fancy_key.png;Data/Items/Icons/fancy_key
+
+#begin Data/Items/Icons/goblet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Data/Items/Icons/goblet.png;Data/Items/Icons/goblet
+
+#begin Data/Items/Icons/healing_potion.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Data/Items/Icons/healing_potion.png;Data/Items/Icons/healing_potion
+
+#begin Data/Items/Icons/mana_tonic.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Data/Items/Icons/mana_tonic.png;Data/Items/Icons/mana_tonic
+
+#begin Data/Items/Icons/red_berry.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Data/Items/Icons/red_berry.png;Data/Items/Icons/red_berry
+
+#begin Data/Items/items.json
+/importer:JsonContentImporter
+/processor:JsonContentProcessor
+/processorParam:ContentType=ANewWorld.Engine.Items.ItemDefinitionDataReader, ANewWorld
+/build:Data/Items/items.json
+
 #begin Data/NPCs/dialogues.json
 /copy:Data/NPCs/dialogues.json
 

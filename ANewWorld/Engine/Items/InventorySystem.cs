@@ -37,7 +37,7 @@ namespace ANewWorld.Engine.Items
 
                     if (definition is null || stack.Quantity <= 0)
                     {
-                        toRemove ??= new List<string>();
+                        toRemove ??= [];
                         toRemove.Add(itemId);
                         continue;
                     }
@@ -55,6 +55,7 @@ namespace ANewWorld.Engine.Items
                     foreach (var itemId in toRemove)
                     {
                         inventory.Stacks.Remove(itemId);
+                        InventorySlotHelper.UnregisterSlot(inventory, itemId);
                     }
                 }
             }

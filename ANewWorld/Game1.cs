@@ -1,27 +1,28 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Extensions.DependencyInjection;
-using DefaultEcs;
-using ANewWorld.Engine.Ecs;
-using ANewWorld.Engine.Systems;
+﻿using ANewWorld.Engine.Audio;
 using ANewWorld.Engine.Components;
-using ANewWorld.Engine.Rendering;
-using ANewWorld.Engine.Input;
-using ANewWorld.Engine.Game;
 using ANewWorld.Engine.Debug;
+using ANewWorld.Engine.Dialogue;
+using ANewWorld.Engine.Ecs;
+using ANewWorld.Engine.Extensions;
+using ANewWorld.Engine.Game;
+using ANewWorld.Engine.Input;
+using ANewWorld.Engine.Items;
+using ANewWorld.Engine.Npc;
+using ANewWorld.Engine.Rendering;
+using ANewWorld.Engine.Systems;
 using ANewWorld.Engine.Tilemap;
 using ANewWorld.Engine.Tilemap.Tmx;
-using System.Collections.Generic;
+using ANewWorld.Engine.UI;
+using DefaultEcs;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TiledSharp;
-using ANewWorld.Engine.Dialogue;
-using ANewWorld.Engine.UI;
-using ANewWorld.Engine.Audio;
-using ANewWorld.Engine.Npc;
-using ANewWorld.Engine.Extensions;
-using ANewWorld.Engine.Items;
 
 namespace ANewWorld
 {
@@ -81,6 +82,14 @@ namespace ANewWorld
         private ItemService? _itemService;
         private InventoryService? _inventoryService;
         private InventorySystem? _inventorySystem;
+        private WorldItemFactory? _worldItemFactory;
+        private PlayerInventoryInputSystem? _playerInventoryInputSystem;
+        private WorldItemPickupSystem? _worldItemPickupSystem;
+        private DroppedItemPhysicsSystem? _droppedItemPhysicsSystem;
+        private ItemIconCache? _itemIconCache;
+        private InventoryHud? _inventoryHud;
+        private Entity _playerEntity;
+        private bool _playerEntityInitialized;
 
         // UI
         private InteractionPromptRenderer? _interactionPrompt;
@@ -153,12 +162,13 @@ namespace ANewWorld
             _collisionSystem = _collisionGrid is not null && _ecsWorld is not null ? new CollisionSystem(_ecsWorld, _collisionGrid!) : null;
 
             // create player entity via factory
-            PlayerFactory.CreatePlayer(
+            _playerEntity = PlayerFactory.CreatePlayer(
                 _ecsWorld!,
                 _playerTexture!,
                 _playerSourceRect,
                 new Vector2(_virtualWidth / 2f, _virtualHeight / 2f)
             );
+            _playerEntityInitialized = true;
 
             _renderSystem.Camera = _camera;
 
@@ -189,9 +199,25 @@ namespace ANewWorld
             _npcSpawner.SpawnNpcsForMap(currentMap);
 
             // Item system
-            _itemService = new ItemService();
+            var itemsData = Content.Load<ItemDefinitionData>(Path.Combine("Data", "Items", "items")) ?? throw new System.Exception("Items data failed to load correctly!");
+            _itemService = new ItemService(itemsData);
             _inventoryService = new InventoryService(_itemService);
             _inventorySystem = new InventorySystem(_ecsWorld!, _itemService);
+            _itemIconCache = new ItemIconCache(Content, GraphicsDevice);
+            _inventoryHud = new InventoryHud(_debugFont!, _itemIconCache);
+            _worldItemFactory = new WorldItemFactory(_ecsWorld!, _itemService, _itemIconCache);
+            _worldItemPickupSystem = new WorldItemPickupSystem(_ecsWorld!, _inventoryService);
+            _playerInventoryInputSystem = new PlayerInventoryInputSystem(_ecsWorld!, _inputActions, _inventoryService, _worldItemFactory);
+            _droppedItemPhysicsSystem = new DroppedItemPhysicsSystem(_ecsWorld!);
+
+            // spawn a couple of test items in the world
+            _worldItemFactory.SpawnWorldItem("healing_potion", 3, new(_virtualWidth / 2f + 48f, _virtualHeight / 2f));
+            _worldItemFactory.SpawnWorldItem("mana_tonic", 2, new(_virtualWidth / 2f - 56f, _virtualHeight / 2f - 20f));
+            _worldItemFactory.SpawnWorldItem("mana_tonic", 2, new(_virtualWidth / 2f - 150f, _virtualHeight / 2f - 120f));
+            _worldItemFactory.SpawnWorldItem("red_berry", 1, new(_virtualWidth / 2f, _virtualHeight / 2f), initialImpulse: new(200,100));
+            _worldItemFactory.SpawnWorldItem("red_berry", 1, new(_virtualWidth / 2f, _virtualHeight / 2f), initialImpulse: new(500,500));
+            _worldItemFactory.SpawnWorldItem("red_berry", 1, new(_virtualWidth / 2f, _virtualHeight / 2f), initialImpulse: new(-1000, -1000), drag: 4);
+            _worldItemFactory.SpawnWorldItem("red_berry", 1, new(_virtualWidth / 2f, _virtualHeight / 2f), initialImpulse: new(-10000, -10000), drag: 4);
 
             // initial state
             _gameState.Set(GameState.Playing);
@@ -218,10 +244,13 @@ namespace ANewWorld
                 _npcMovementSystem?.Update(dt);     // 4. NPC movement (sets velocity)
                 _facingSystem?.Update(dt);          // 5. Updates facing from velocity (automatic)
                 _interactionSystem?.Update(dt);     // 6. Creates InteractionStarted events
-                _npcInteractionSystem?.Update(dt);  // 7. Processes events, overwrites NPC facing (manual)
-                _inventorySystem?.Update(dt);       // 8. Sanitises inventory stacks
-                _animStateSystem?.Update(dt);       // 9. Updates animation keys based on facing/velocity
-                _animationSystem?.Update(dt);       // 10. Animates frames
+                _worldItemPickupSystem?.Update(dt); // 7. Adds pickups to inventory
+                _npcInteractionSystem?.Update(dt);  // 8. Processes events, overwrites NPC facing (manual)
+                _playerInventoryInputSystem?.Update(dt); // 9. Handles selection + dropping
+                _inventorySystem?.Update(dt);       // 10. Sanitises inventory stacks
+                _droppedItemPhysicsSystem?.Update(dt); // 11. Settles thrown items
+                _animStateSystem?.Update(dt);       // 12. Updates animation keys based on facing/velocity
+                _animationSystem?.Update(dt);       // 13. Animates frames
             }
 
             _dialogueSystem?.Update(dt);          // Starts dialogue and disposes InteractionStarted events
@@ -310,13 +339,25 @@ namespace ANewWorld
             
             _spriteBatch.End();
 
-            // HUD in virtual space (no transform)
-            if (_dialogueSystem is not null && _dialogueHud is not null)
+            var hasInventoryHud = _inventoryHud is not null && _inventoryService is not null && _itemService is not null && _playerEntityInitialized && _playerEntity.IsAlive;
+            var hasDialogueHud = _dialogueSystem is not null && _dialogueHud is not null;
+            if (hasInventoryHud || hasDialogueHud)
             {
-                _dialogueHud.VirtualWidth = _virtualWidth;
-                _dialogueHud.VirtualHeight = _virtualHeight;
                 _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
-                _dialogueHud.Draw(_spriteBatch, _dialogueSystem);
+
+                if (hasInventoryHud && _playerEntity.Has<InventoryComponent>())
+                {
+                    var inventory = _playerEntity.Get<InventoryComponent>();
+                    _inventoryHud!.Draw(_spriteBatch, inventory, _itemService!, _virtualWidth, _virtualHeight);
+                }
+
+                if (hasDialogueHud)
+                {
+                    _dialogueHud!.VirtualWidth = _virtualWidth;
+                    _dialogueHud.VirtualHeight = _virtualHeight;
+                    _dialogueHud.Draw(_spriteBatch, _dialogueSystem!);
+                }
+
                 _spriteBatch.End();
             }
 
@@ -362,7 +403,13 @@ namespace ANewWorld
 
         protected override void UnloadContent()
         {
+            _playerInventoryInputSystem?.Dispose();
+            _worldItemPickupSystem?.Dispose();
+            _droppedItemPhysicsSystem?.Dispose();
             _inventorySystem?.Dispose();
+            _worldItemFactory?.Dispose();
+            _inventoryHud?.Dispose();
+            _itemIconCache?.Dispose();
             _ecsWorld?.Dispose();
             base.UnloadContent();
         }

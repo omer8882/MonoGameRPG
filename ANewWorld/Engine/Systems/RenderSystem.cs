@@ -1,11 +1,12 @@
-using DefaultEcs;
-using Microsoft.Xna.Framework.Graphics;
 using ANewWorld.Engine.Components;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using ANewWorld.Engine.Rendering;
 using ANewWorld.Engine.Extensions;
+using ANewWorld.Engine.Items;
+using ANewWorld.Engine.Rendering;
+using DefaultEcs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace ANewWorld.Engine.Systems
 {
@@ -59,6 +60,11 @@ namespace ANewWorld.Engine.Systems
             {
                 var t = entity.Get<Transform>();
                 var s = entity.Get<SpriteComponent>();
+
+                if(entity.Has<WorldItemComponent>())
+                {
+
+                }
 
                 // Frustum culling (AABB) if view exists
                 bool inView = true;

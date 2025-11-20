@@ -1,35 +1,5 @@
 # A New World (MonoGame RPG prototype)
 
-Short description
-- 2D top-down prototype built with MonoGame (DesktopGL) on .NET 10
-- ECS with DefaultEcs
-- Tiled maps via TiledSharp + custom TMX renderer (animated tiles, culling)
-- Player movement + 4-directional animation
-- Interaction + Dialogue (choices, conditions/actions, variables, typewriter)
-- HUD in virtual space; Debug overlay with minimap
-- Basic audio system (one-shots + loop bus)
-- NPC system (spawn rules, behaviors: idle/patrol/wander, face player on interact, animated sprites)
-
-Controls
-- Move: WASD / Arrow keys
-- Interact: E
-- Advance dialogue / Select choice: Space / Enter (Up/Down to change selection)
-- Toggle debug overlay: F3
-
-Build & run
-- Requirements: .NET 10 SDK, MonoGame 3.8, MGCB Content Pipeline
-- Open ANewWorld/ANewWorld.csproj in VS or run `dotnet build` then start the app
-- Ensure Content.mgcb is built; add SFX to Content/Audio and reference by asset name
-
-Project structure (high level)
-- Engine/Tilemap/Tmx: TMX loading and renderer
-- Engine/Systems: ECS systems (input, movement, animation, dialogue, audio, NPC AI, etc.)
-- Engine/UI: HUD rendering
-- Engine/Audio: SFX/events/bus
-- Engine/Npc: NPC definitions, spawn rules, service, animation builder
-- Content: mgcb-managed content (maps, textures, audio, NPCs, dialogues)
-
-## TODO (working list)
 
 Done
 - Animated tiles (layers + tile objects) with per-gid atlas
@@ -42,39 +12,62 @@ Done
 - Audio: one-shots + loop bus, typewriter loop
 - Cleanup/perf: renderer buffer reuse; comprehensive unit tests
 - Virtual screen = backbuffer (dynamic resize)
-- NPC core system (data-driven spawning, behaviors: idle/patrol/wander, face player, restore behavior)
+- NPC core system (data-driven spawning, behaviors: idle/patrol/wander, face player on interact, restore behavior)
 - NPC tests (movement, brain, interaction, service - 28 tests)
-- NPC animation integration (parse clips from JSON, build dictionaries, AnimationStateSystem integration)
+- NPC animation integration (parse clips from npcs.json, build dictionaries, AnimationStateSystem integration)
 - Interaction prompt indicator (bobbing speech bubble above interactable NPCs)
 
-### NPC Todo
-Phase 1: Core Visuals (Priority: HIGH)
-- [V] Animation integration
-  - Parse animationClips from npcs.json
-  - Build animation dictionaries in NpcSpawnerSystem
-  - Load sprite textures and create clips
-  - NPCs animate via existing AnimationStateSystem
-- [V] Interaction prompt indicator (speech bubble icon above interactable NPCs)
-- [ ] Shadow sprites under NPCs
+### Revised TODO (High-level roadmap)
 
-Phase 2: Behavior Depth (Priority: MEDIUM)
-- [ ] Schedules (time-based behavior changes)
-  - NPCs follow daily routines (morning patrol, evening idle, etc.)
-  - JSON: schedule array with time/behavior/location
-- [ ] Contextual dialogue (flag-based dialogue branches)
-  - Different greetings based on quest progress/flags
-- [ ] Smooth facing transitions (lerp rotation instead of instant snap)
+**Inventory & World Items**
+- **Goal:** Full item system with world-spawned items, visible pickups, and an inventory UI.
+- **Design:** item definitions in `Content/Data/Items/*.json`; runtime `ItemService` + `ItemEntity` prefab that spawns a visible `SpriteComponent` + `Interactable`/pickup component.
+- **Feature list:** item stacking, max stack, pick-up range, throw/drop from inventory, simple physics for dropped items (slide/settle).
 
-Phase 3: Advanced Systems (Priority: MEDIUM)
-- [ ] Time of day system
-  - Track game time (day/night cycle)
-  - Spawn/despawn NPCs based on time
-  - Lighting/tint changes
-- [ ] Improved spawn conditions
-  - Multiple spawn points per NPC (random selection)
-  - Quest stage integration (when quest system exists)
-  - Player level checks (when level system exists)
-- [ ] NPC reactions (flee, follow, alert others)
+**Quests & NPC Storylines**
+- **Goal:** NPCs drive quests and story arcs that evolve the world and spawn/map content as the player progresses.
+- **Design:** a `QuestService` and `NpcStoryService` hold quest states, triggers, and story stages. NPCs have `QuestGiver`/`Actor` components linking to quest graphs defined in `Content/Data/Quests/*.json`.
+- **Feature list:** multi-step quests, branching choices (flag/condition based), NPC state changes (spawn/despawn, behavior swaps), and in-world consequences (open doors, spawn enemies/items).
+
+**Progression & Level Staging (Map States)**
+- **Goal:** Reuse maps while changing map content as the player advances (new objects, enemies, NPC states, blocked/unblocked areas).
+- **Design:** map staging via `MapState` definitions. Each map has named layers or object-groups gated by story flags. The `MapStateService` applies diffs (spawn/despawn/modify entities) when story stage changes.
+- **Feature list:** persistent map flags, staged spawn rules, UI indicators for unlocked areas, and deterministic transitions.
+
+**Cutscenes**
+- **Goal:** Scripted sequences (camera control, dialog, NPC movement/animation, input lock) usable for story beats.
+- **Design:** lightweight cutscene timeline system: tracks actions (camera pan/zoom, entity actions, dialog lines, delays) defined in `Content/Data/Cutscenes/*.json` or embedded in quest definitions. A `CutscenePlayer` runs timelines, locking `GameState` and the input system, with the option to skip.
+- **Feature list:** camera control, actor choreography, anim events, sound cues, skippable playback, and hooks to modify `MapState`/quest flags when finished.
+
+**Content & Data Schemas**
+- **Goal:** Clear, testable JSON schemas for items, NPCs, quests, map states, and cutscenes kept under `Content/Data/`.
+- **Design:** add example schema files and sample content, e.g., `items.schema.json`, `quests.schema.json`, and `cutscene.schema.json` to help content creation and validation.
+
+**Implementation Steps (short-term roadmap)**
+- **Phase A (MVP):**
+  - Implement `ItemService` + pickup/spawn entities and basic inventory UI.
+  - Add one sample quest flow (give item → fetch → return) to validate quest wiring.
+  - Add a minimal cutscene type: camera pan + dialogue.
+- **Phase B (Feature complete):**
+  - Expand quest system for branching and NPC-driven stages.
+  - Implement `MapStateService` to apply staged changes.
+  - Implement dropped-item physics and item visuals.
+- **Phase C (Polish):**
+  - Add content tooling (schemas, examples), unit tests, save/load for quests/map states, and debug overlays for story state.
+
+**Tests & Validation**
+- **Goal:** Add headless tests for `ItemService`, `QuestService`, `MapStateService`, and `CutscenePlayer` to prevent regressions.
+- **Design:** Extend `ANewWorld.Tests` with data-driven tests that load sample JSON and validate state transitions.
+
+**Next Steps**
+- Draft concrete JSON schemas for `items`, `quests`, `map_states`, and `cutscenes`.
+- Prototype `ItemService` + a visible pickup in a small test scene.
+- Prototype a one-off cutscene example and a sample quest to iterate on tooling and data layout.
+
+Notes
+- Virtual resolution matches backbuffer; Dialogue HUD renders in virtual space before scaling.
+- Content paths use mgcb; SFX are loaded by asset name (e.g., Sounds/Effects/typewriter).
+- Keep new content files under `Content/Data/**` so `ContentLoader.LoadJson` resolves them correctly.
 
 Phase 4: Polish & Performance (Priority: LOW)
 - [ ] Visual polish

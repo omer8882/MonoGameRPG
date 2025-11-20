@@ -5,5 +5,10 @@
   "MoveRight": ["D", "Right"],
   "ToggleOverlay": ["F3"],
   "Interact": ["E"],
-  "Advance": ["Space", "Enter"]
+  "Advance": ["Space", "Enter"],
+  "DropItem": ["Q"],
+  "SelectItem1": ["D1", "NumPad1"],
+  "SelectItem2": ["D2", "NumPad2"],
+  "SelectItem3": ["D3", "NumPad3"],
+  "SelectItem4": ["D4", "NumPad4"]
 }

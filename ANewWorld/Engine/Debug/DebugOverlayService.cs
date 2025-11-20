@@ -64,9 +64,9 @@ namespace ANewWorld.Engine.Debug
                 debugText += $"\nEnt Visible: {visibleEntitiesInView.Value}, Culled: {culledEntities.Value}";
             }
 
-            if (interaction is not null && interaction.Current.entity.HasValue)
+            if (interaction is not null && interaction.Current is not null && interaction.Current.Value.entity.HasValue)
             {
-                var prompt = interaction.Current.prompt ?? "Interact";
+                var prompt = interaction.Current?.prompt ?? "Interact";
                 debugText += $"\n[E] {prompt}";
             }
 

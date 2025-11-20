@@ -14,6 +14,7 @@ namespace ANewWorld.Tests
     {
         private readonly string _testRootPath;
         private readonly string _originalDirectory;
+        private readonly ItemDefinitionData _itemData;
 
         public ItemServiceTests()
         {
@@ -37,9 +38,9 @@ namespace ANewWorld.Tests
                             Description = "Restores health.",
                             Icon = "Data/Items/Icons/healing_potion.png",
                             MaxStack = 10,
-                            Properties = new Dictionary<string, int>
+                            Properties = new Dictionary<string, string>
                             {
-                                { "heal", 25 }
+                                { "heal", "25" }
                             }
                         }
                     },
@@ -51,9 +52,9 @@ namespace ANewWorld.Tests
                             Description = "Restores mana.",
                             Icon = "Data/Items/Icons/mana_tonic.png",
                             MaxStack = 5,
-                            Properties = new Dictionary<string, int>
+                            Properties = new Dictionary<string, string>
                             {
-                                { "mana", 15 }
+                                { "mana", "15" }
                             }
                         }
                     }
@@ -64,6 +65,9 @@ namespace ANewWorld.Tests
             var json = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
             Directory.CreateDirectory(Path.GetDirectoryName(jsonPath)!);
             File.WriteAllText(jsonPath, json);
+
+            _itemData = JsonSerializer.Deserialize<ItemDefinitionData>(json) ??
+                throw new InvalidOperationException("Failed to deserialize item test data.");
 
             // create placeholder icons so relative paths resolve if needed later
             File.WriteAllBytes(Path.Combine(contentPath, "healing_potion.png"), Array.Empty<byte>());
@@ -76,7 +80,7 @@ namespace ANewWorld.Tests
         [Fact]
         public void Constructor_Loads_Definitions()
         {
-            var service = new ItemService();
+            var service = new ItemService(_itemData);
 
             var potion = service.GetDefinition("healing_potion");
             potion.Should().NotBeNull();
@@ -87,7 +91,7 @@ namespace ANewWorld.Tests
         [Fact]
         public void Add_And_Remove_Items_From_Inventory()
         {
-            var service = new ItemService();
+            var service = new ItemService(_itemData);
             var inventoryService = new InventoryService(service);
             using var world = new World();
             var entity = world.CreateEntity();
@@ -105,13 +109,74 @@ namespace ANewWorld.Tests
         [Fact]
         public void AddItem_Throws_For_Unknown_Id()
         {
-            var service = new ItemService();
+            var service = new ItemService(_itemData);
             var inventoryService = new InventoryService(service);
             using var world = new World();
             var entity = world.CreateEntity();
 
             Action act = () => inventoryService.AddItem(entity, "unknown", 1);
             act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void Inventory_Remembers_Selected_Slots()
+        {
+            var service = new ItemService(_itemData);
+            var inventoryService = new InventoryService(service);
+            using var world = new World();
+            var entity = world.CreateEntity();
+
+            inventoryService.AddItem(entity, "healing_potion", 2).Should().Be(2);
+            inventoryService.AddItem(entity, "mana_tonic", 1).Should().Be(1);
+
+            inventoryService.GetActiveItemId(entity).Should().Be("healing_potion");
+
+            inventoryService.SetSelectedIndex(entity, 1).Should().BeTrue();
+            inventoryService.GetActiveItemId(entity).Should().Be("mana_tonic");
+
+            inventoryService.RemoveItem(entity, "mana_tonic", 1).Should().Be(1);
+            inventoryService.GetActiveItemId(entity).Should().Be("healing_potion");
+        }
+
+        [Fact]
+        public void TryConsumeActiveItem_Removes_From_Inventory()
+        {
+            var service = new ItemService(_itemData);
+            var inventoryService = new InventoryService(service);
+            using var world = new World();
+            var entity = world.CreateEntity();
+
+            inventoryService.AddItem(entity, "healing_potion", 1).Should().Be(1);
+
+            inventoryService.TryConsumeActiveItem(entity, 1, out var itemId, out var definition)
+                .Should().BeTrue();
+
+            itemId.Should().Be("healing_potion");
+            definition.DisplayName.Should().Be("Healing Potion");
+            inventoryService.GetQuantity(entity, "healing_potion").Should().Be(0);
+        }
+
+        [Fact]
+        public void OffsetSelectedIndex_Wraps_Around_Slots()
+        {
+            var service = new ItemService(_itemData);
+            var inventoryService = new InventoryService(service);
+            using var world = new World();
+            var entity = world.CreateEntity();
+
+            inventoryService.AddItem(entity, "healing_potion", 2).Should().Be(2);
+            inventoryService.AddItem(entity, "mana_tonic", 1).Should().Be(1);
+
+            inventoryService.GetActiveItemId(entity).Should().Be("healing_potion");
+
+            inventoryService.OffsetSelectedIndex(entity, 1).Should().BeTrue();
+            inventoryService.GetActiveItemId(entity).Should().Be("mana_tonic");
+
+            inventoryService.OffsetSelectedIndex(entity, 1).Should().BeTrue();
+            inventoryService.GetActiveItemId(entity).Should().Be("healing_potion");
+
+            inventoryService.OffsetSelectedIndex(entity, -1).Should().BeTrue();
+            inventoryService.GetActiveItemId(entity).Should().Be("mana_tonic");
         }
 
         public void Dispose()

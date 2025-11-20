@@ -1,21 +1,43 @@
 {
-  "items": {
+  "Items": {
     "healing_potion": {
-      "displayName": "Healing Potion",
-      "description": "Restores a small amount of health.",
-      "icon": "Data/Items/Icons/healing_potion.png",
-      "maxStack": 10,
-      "properties": {
-        "heal": 25
+	  "Id": "healing.potion.0",
+      "DisplayName": "Healing Potion",
+      "Description": "Restores a small amount of health.",
+      "Icon": "Data/Items/Icons/healing_potion",
+      "MaxStack": 10,
+      "Properties": {
+        "heal": "25"
       }
     },
     "mana_tonic": {
-      "displayName": "Mana Tonic",
-      "description": "Replenishes a bit of mana.",
-      "icon": "Data/Items/Icons/mana_tonic.png",
-      "maxStack": 5,
-      "properties": {
-        "mana": 15
+	  "Id": "mana_tonic.0",
+      "DisplayName": "Mana Tonic",
+      "Description": "Replenishes a bit of mana.",
+      "Icon": "Data/Items/Icons/mana_tonic",
+      "MaxStack": 5,
+      "Properties": {
+        "mana": "15"
+      }
+    },
+    "fancy_key": {
+	  "Id": "fancy_key.0",
+      "DisplayName": "Fancy Key",
+      "Description": "A fancy key.",
+      "Icon": "Data/Items/Icons/fancy_key",
+      "MaxStack": 1,
+      "Properties": {
+        "opens": "chest_0123"
+      }
+    },
+    "red_berry": {
+	  "Id": "red_berry.0",
+      "DisplayName": "Red berries",
+      "Description": "Red berries",
+      "Icon": "Data/Items/Icons/red_berry",
+      "MaxStack": 60,
+      "Properties": {
+        "heal": "2"
       }
     }
   }

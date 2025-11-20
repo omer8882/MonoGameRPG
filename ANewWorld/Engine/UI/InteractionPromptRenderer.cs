@@ -37,17 +37,17 @@ namespace ANewWorld.Engine.UI
         {
             if (interactionSystem == null || _promptIcon == null) return;
             
+            if (!interactionSystem.Current.HasValue || !interactionSystem.Current.Value.entity.HasValue) return;
             var interactableEntity = interactionSystem.Current;
-            if (!interactableEntity.entity.HasValue) return;
 
             // Calculate bob offset
             float bobOffset = (float)Math.Sin(_bobTimer) * _bobAmount;
 
-            var wh = interactableEntity.entity?.Get<SpriteComponent>().SourceRect?.Width ?? 0;
+            var wh = interactableEntity!.Value.entity?.Get<SpriteComponent>().SourceRect?.Width ?? 0;
             var half = wh / 2;
 
             // Draw above the entity
-            var position = interactableEntity.position;
+            var position = interactableEntity!.Value.position;
             position.Y += bobOffset;
 
 

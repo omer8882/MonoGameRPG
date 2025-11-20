@@ -13,7 +13,7 @@ namespace ANewWorld.Engine.Systems
         private readonly EntitySet _interactables;
         private readonly EntitySet _players;
 
-        public (Entity? entity, Vector2 position, float radius, string? prompt) Current { get; private set; }
+        public (Entity? entity, Vector2 position, float radius, string? prompt)? Current { get; private set; }
         public bool IsEnabled { get; set; } = true;
 
         public InteractionSystem(World world, InputActionService input)
@@ -69,6 +69,7 @@ namespace ANewWorld.Engine.Systems
             {
                 var evt = _world.CreateEntity();
                 evt.Set(new InteractionStarted { Target = best.Value });
+                Current = null;//= Current with { entity = null }; // Clear current after interaction starts
             }
         }
 

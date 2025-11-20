@@ -9,15 +9,13 @@ namespace ANewWorld.Engine.Items
     {
         private readonly Dictionary<string, ItemDefinition> _definitions = new(StringComparer.OrdinalIgnoreCase);
 
-        public ItemService()
+        public ItemService(ItemDefinitionData itemData)
         {
-            var basePath = Path.Combine("Data", "Items");
-            LoadDefinitions(Path.Combine(basePath, "items.json"));
+            LoadDefinitions(itemData);
         }
 
-        public void LoadDefinitions(string path)
+        public void LoadDefinitions(ItemDefinitionData data)
         {
-            var data = ContentLoader.LoadJson<ItemDefinitionData>(path);
             if (data?.Items == null) return;
 
             foreach (var kvp in data.Items)
